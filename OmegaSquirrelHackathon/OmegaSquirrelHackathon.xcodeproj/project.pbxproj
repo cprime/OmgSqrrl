@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6434634168DF0A000EAF62B /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434633168DF0A000EAF62B /* Player.m */; };
+		E6434638168E008800EAF62B /* PowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434637168E008800EAF62B /* PowerUp.m */; };
 		E6EC1214168CEF5D00BD05E4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6EC1213168CEF5D00BD05E4 /* QuartzCore.framework */; };
 		E6EC1216168CEF5D00BD05E4 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6EC1215168CEF5D00BD05E4 /* OpenGLES.framework */; };
 		E6EC1218168CEF5D00BD05E4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6EC1217168CEF5D00BD05E4 /* OpenAL.framework */; };
@@ -184,6 +186,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E6434632168DF0A000EAF62B /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		E6434633168DF0A000EAF62B /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		E6434636168E008800EAF62B /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
+		E6434637168E008800EAF62B /* PowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUp.m; sourceTree = "<group>"; };
 		E6EC120F168CEF5D00BD05E4 /* OmegaSquirrelHackathon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmegaSquirrelHackathon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6EC1213168CEF5D00BD05E4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E6EC1215168CEF5D00BD05E4 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -613,6 +619,10 @@
 				E6EC143A168CEF5F00BD05E4 /* GLES-Render.mm */,
 				E6EC143C168CEF5F00BD05E4 /* PhysicsSprite.h */,
 				E6EC143D168CEF5F00BD05E4 /* PhysicsSprite.mm */,
+				E6434632168DF0A000EAF62B /* Player.h */,
+				E6434633168DF0A000EAF62B /* Player.m */,
+				E6434636168E008800EAF62B /* PowerUp.h */,
+				E6434637168E008800EAF62B /* PowerUp.m */,
 				E6EC1226168CEF5D00BD05E4 /* Resources */,
 				E6EC1240168CEF5D00BD05E4 /* libs */,
 				E6EC142C168CEF5F00BD05E4 /* Supporting Files */,
@@ -1367,6 +1377,8 @@
 				E6EC1438168CEF5F00BD05E4 /* IntroLayer.mm in Sources */,
 				E6EC143B168CEF5F00BD05E4 /* GLES-Render.mm in Sources */,
 				E6EC143E168CEF5F00BD05E4 /* PhysicsSprite.mm in Sources */,
+				E6434634168DF0A000EAF62B /* Player.m in Sources */,
+				E6434638168E008800EAF62B /* PowerUp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1472,6 +1484,7 @@
 				E6EC1445168CEF5F00BD05E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
