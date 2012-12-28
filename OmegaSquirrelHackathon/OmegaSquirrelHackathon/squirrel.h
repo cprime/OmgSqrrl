@@ -10,7 +10,6 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 
-static const float PTM_RATIO = 32.0f; // Pixel-to-Meter Ratio. Convert between Box2D units (meters) and Cocos2D units (points)
 static const float MINIMUM_X_VELOCITY = 5.0f;
 static const float MAXIMUM_X_VELOCITY = 25.0f;
 
