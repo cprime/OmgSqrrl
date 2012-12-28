@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		E6434634168DF0A000EAF62B /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434633168DF0A000EAF62B /* Player.m */; };
 		E6434638168E008800EAF62B /* PowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434637168E008800EAF62B /* PowerUp.m */; };
+		E643463B168E0E7A00EAF62B /* MainMenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E643463A168E0E7A00EAF62B /* MainMenuLayer.mm */; };
+		E643463E168E187000EAF62B /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E643463D168E187000EAF62B /* IntroLayer.mm */; };
+		E6434641168E1A9200EAF62B /* GameOverLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6434640168E1A9200EAF62B /* GameOverLayer.mm */; };
+		E6434644168E1B5300EAF62B /* LevelTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434643168E1B5200EAF62B /* LevelTracker.m */; };
 		E6EC1214168CEF5D00BD05E4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6EC1213168CEF5D00BD05E4 /* QuartzCore.framework */; };
 		E6EC1216168CEF5D00BD05E4 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6EC1215168CEF5D00BD05E4 /* OpenGLES.framework */; };
 		E6EC1218168CEF5D00BD05E4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6EC1217168CEF5D00BD05E4 /* OpenAL.framework */; };
@@ -179,7 +183,6 @@
 		E6EC142F168CEF5F00BD05E4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EC142E168CEF5F00BD05E4 /* main.m */; };
 		E6EC1432168CEF5F00BD05E4 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC1431168CEF5F00BD05E4 /* AppDelegate.mm */; };
 		E6EC1435168CEF5F00BD05E4 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC1434168CEF5F00BD05E4 /* HelloWorldLayer.mm */; };
-		E6EC1438168CEF5F00BD05E4 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC1437168CEF5F00BD05E4 /* IntroLayer.mm */; };
 		E6EC143B168CEF5F00BD05E4 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC143A168CEF5F00BD05E4 /* GLES-Render.mm */; };
 		E6EC143E168CEF5F00BD05E4 /* PhysicsSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC143D168CEF5F00BD05E4 /* PhysicsSprite.mm */; };
 		E6EC1440168CEF5F00BD05E4 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = E6EC143F168CEF5F00BD05E4 /* blocks.png */; };
@@ -190,6 +193,14 @@
 		E6434633168DF0A000EAF62B /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		E6434636168E008800EAF62B /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
 		E6434637168E008800EAF62B /* PowerUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerUp.m; sourceTree = "<group>"; };
+		E6434639168E0E7A00EAF62B /* MainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLayer.h; sourceTree = "<group>"; };
+		E643463A168E0E7A00EAF62B /* MainMenuLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainMenuLayer.mm; sourceTree = "<group>"; };
+		E643463C168E187000EAF62B /* IntroLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
+		E643463D168E187000EAF62B /* IntroLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
+		E643463F168E1A9200EAF62B /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
+		E6434640168E1A9200EAF62B /* GameOverLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameOverLayer.mm; sourceTree = "<group>"; };
+		E6434642168E1B5200EAF62B /* LevelTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelTracker.h; sourceTree = "<group>"; };
+		E6434643168E1B5200EAF62B /* LevelTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelTracker.m; sourceTree = "<group>"; };
 		E6EC120F168CEF5D00BD05E4 /* OmegaSquirrelHackathon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmegaSquirrelHackathon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6EC1213168CEF5D00BD05E4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E6EC1215168CEF5D00BD05E4 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -544,8 +555,6 @@
 		E6EC1431168CEF5F00BD05E4 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		E6EC1433168CEF5F00BD05E4 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
 		E6EC1434168CEF5F00BD05E4 /* HelloWorldLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; };
-		E6EC1436168CEF5F00BD05E4 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
-		E6EC1437168CEF5F00BD05E4 /* IntroLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
 		E6EC1439168CEF5F00BD05E4 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		E6EC143A168CEF5F00BD05E4 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		E6EC143C168CEF5F00BD05E4 /* PhysicsSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhysicsSprite.h; sourceTree = "<group>"; };
@@ -611,14 +620,20 @@
 			children = (
 				E6EC1430168CEF5F00BD05E4 /* AppDelegate.h */,
 				E6EC1431168CEF5F00BD05E4 /* AppDelegate.mm */,
+				E643463C168E187000EAF62B /* IntroLayer.h */,
+				E643463D168E187000EAF62B /* IntroLayer.mm */,
+				E6434639168E0E7A00EAF62B /* MainMenuLayer.h */,
+				E643463A168E0E7A00EAF62B /* MainMenuLayer.mm */,
 				E6EC1433168CEF5F00BD05E4 /* HelloWorldLayer.h */,
 				E6EC1434168CEF5F00BD05E4 /* HelloWorldLayer.mm */,
-				E6EC1436168CEF5F00BD05E4 /* IntroLayer.h */,
-				E6EC1437168CEF5F00BD05E4 /* IntroLayer.mm */,
+				E643463F168E1A9200EAF62B /* GameOverLayer.h */,
+				E6434640168E1A9200EAF62B /* GameOverLayer.mm */,
 				E6EC1439168CEF5F00BD05E4 /* GLES-Render.h */,
 				E6EC143A168CEF5F00BD05E4 /* GLES-Render.mm */,
 				E6EC143C168CEF5F00BD05E4 /* PhysicsSprite.h */,
 				E6EC143D168CEF5F00BD05E4 /* PhysicsSprite.mm */,
+				E6434642168E1B5200EAF62B /* LevelTracker.h */,
+				E6434643168E1B5200EAF62B /* LevelTracker.m */,
 				E6434632168DF0A000EAF62B /* Player.h */,
 				E6434633168DF0A000EAF62B /* Player.m */,
 				E6434636168E008800EAF62B /* PowerUp.h */,
@@ -1374,11 +1389,14 @@
 				E6EC142F168CEF5F00BD05E4 /* main.m in Sources */,
 				E6EC1432168CEF5F00BD05E4 /* AppDelegate.mm in Sources */,
 				E6EC1435168CEF5F00BD05E4 /* HelloWorldLayer.mm in Sources */,
-				E6EC1438168CEF5F00BD05E4 /* IntroLayer.mm in Sources */,
 				E6EC143B168CEF5F00BD05E4 /* GLES-Render.mm in Sources */,
 				E6EC143E168CEF5F00BD05E4 /* PhysicsSprite.mm in Sources */,
 				E6434634168DF0A000EAF62B /* Player.m in Sources */,
 				E6434638168E008800EAF62B /* PowerUp.m in Sources */,
+				E643463B168E0E7A00EAF62B /* MainMenuLayer.mm in Sources */,
+				E643463E168E187000EAF62B /* IntroLayer.mm in Sources */,
+				E6434641168E1A9200EAF62B /* GameOverLayer.mm in Sources */,
+				E6434644168E1B5300EAF62B /* LevelTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
