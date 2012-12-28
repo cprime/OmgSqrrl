@@ -16,7 +16,7 @@
 @implementation MainMenuLayer
 
 - (void)playButtonClicked {
-    [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer scene]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] withColor:ccBLACK]];
 }
 
 +(CCScene *) scene
@@ -37,7 +37,7 @@
 - (id)init {
     self = [super initWithColor:ccc4(0, 0, 0, 255)];
     if(self) {
-        self.contentSize = CGSizeMake(1024, 768);
+        self.contentSize = [[CCDirector sharedDirector] winSize];
         
         NSString *text = nil;
         switch (arc4random() % 8) {

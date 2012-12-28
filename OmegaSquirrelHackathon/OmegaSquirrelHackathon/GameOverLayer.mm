@@ -34,10 +34,10 @@
     if((self = [super init])) {
         self.contentSize = CGSizeMake(1024, 768);
         
-        CCMenuItem *timeLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Run time: %f seconds", tracker.elapsedTime]
+        CCMenuItem *timeLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Run time: %.2f seconds", tracker.elapsedTime]
                                                                                   fontName:@"Helvetica"
                                                                                   fontSize:30]];
-        CCMenuItem *distanceLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Distance Traveled: %f meters", tracker.distanceTraveled / PTM_RATIO]
+        CCMenuItem *distanceLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Distance Traveled: %.2f meters", tracker.distanceTraveled / PTM_RATIO]
                                                                                       fontName:@"Helvetica"
                                                                                       fontSize:30]];
         CCMenuItem *acornsLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Acorns Collected: %d", tracker.acornsCollected]

@@ -11,6 +11,9 @@
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
+#import "Player.h"
+#import "GameHUDLayer.h"
+#import "LevelTracker.h"
 
 #import "PhysicsSprite.h"
 
@@ -80,6 +83,14 @@ enum {
 		[self addChild:label z:0];
 		[label setColor:ccc3(0,0,255)];
 		label.position = ccp( s.width/2, s.height-50);
+        
+        self.playerModel = [[Player alloc] init];
+        self.levelTracker = [[LevelTracker alloc] init];
+        
+        self.HUDLayer = [[GameHUDLayer alloc] init];
+        self.HUDLayer.tracker = self.levelTracker;
+        self.HUDLayer.player = self.playerModel;
+        [self addChild:self.HUDLayer z:100];
 		
 		[self scheduleUpdate];
 	}

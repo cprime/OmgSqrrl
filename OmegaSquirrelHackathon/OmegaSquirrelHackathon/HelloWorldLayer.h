@@ -14,7 +14,9 @@
 #import "Box2D.h"
 #import "GLES-Render.h"
 
-
+@class GameHUDLayer;
+@class Player;
+@class LevelTracker;
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
@@ -24,7 +26,11 @@
 	GLESDebugDraw *m_debugDraw;		// strong ref
 }
 
+@property (nonatomic, strong) GameHUDLayer *HUDLayer;
+@property (nonatomic, strong) Player *playerModel;
+@property (nonatomic, strong) LevelTracker *levelTracker;
+
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
++ (CCScene *)scene;
 
 @end
