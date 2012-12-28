@@ -25,12 +25,15 @@ enum {
 #pragma mark - HelloWorldLayer
 
 @interface HelloWorldLayer()
+
 -(void) initPhysics;
 -(void) addNewSpriteAtPosition:(CGPoint)p;
 -(void) createMenu;
 @end
 
 @implementation HelloWorldLayer
+
+@synthesize batchNode = _batchNode;
 
 +(CCScene *) scene
 {
@@ -76,7 +79,6 @@ enum {
 #endif
 		[self addChild:parent z:0 tag:kTagParentNode];
 		
-		
 		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
 		
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
@@ -93,8 +95,22 @@ enum {
         [self addChild:self.HUDLayer z:100];
 		
 		[self scheduleUpdate];
+    
+//    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"testOS.plist"];
+//    _batchNode = [CCSpriteBatchNode batchNodeWithFile:@"testOS.jpg"];
+//    [self addChild:_batchNode];
+
+    _squirrel = [[[squirrel alloc] initWithWorld:world] autorelease];
+    [_squirrel setState:OSStateRunning];
+    [self addChild:_squirrel];
+    
 	}
+  
 	return self;
+}
+
+- (void)onEnterTransitionDidFinish {
+  [_squirrel wake];
 }
 
 -(void) dealloc
@@ -119,39 +135,40 @@ enum {
 	}];
 	
 	// Achievement Menu Item using blocks
-	CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-		
-		
-		GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-		achivementViewController.achievementDelegate = self;
-		
-		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-		
-		[[app navController] presentModalViewController:achivementViewController animated:YES];
-		
-		[achivementViewController release];
-	}];
+//	CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
+//		
+//		
+//		GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
+//		achivementViewController.achievementDelegate = self;
+//		
+//		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+//		
+//		[[app navController] presentModalViewController:achivementViewController animated:YES];
+//		
+//		[achivementViewController release];
+//	}];
+//	
+//	// Leaderboard Menu Item using blocks
+//	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
+//		
+//		
+//		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
+//		leaderboardViewController.leaderboardDelegate = self;
+//		
+//		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
+//		
+//		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
+//		
+//		[leaderboardViewController release];
+//	}];
 	
-	// Leaderboard Menu Item using blocks
-	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-		
-		
-		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-		leaderboardViewController.leaderboardDelegate = self;
-		
-		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-		
-		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-		
-		[leaderboardViewController release];
-	}];
-	
-	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, nil];
-	
+//	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, nil];
+  CCMenu *menu = [CCMenu menuWithItems:reset, nil];
+
 	[menu alignItemsVertically];
 	
 	CGSize size = [[CCDirector sharedDirector] winSize];
-	[menu setPosition:ccp( size.width/2, size.height/2)];
+	[menu setPosition:ccp( size.width/2, size.height/2/2)];
 	
 	
 	[self addChild: menu z:-1];	
@@ -177,11 +194,11 @@ enum {
 	
 	uint32 flags = 0;
 	flags += b2Draw::e_shapeBit;
-	//		flags += b2Draw::e_jointBit;
-	//		flags += b2Draw::e_aabbBit;
-	//		flags += b2Draw::e_pairBit;
-	//		flags += b2Draw::e_centerOfMassBit;
-	m_debugDraw->SetFlags(flags);		
+  flags += b2Draw::e_jointBit;
+  flags += b2Draw::e_aabbBit;
+  flags += b2Draw::e_pairBit;
+  flags += b2Draw::e_centerOfMassBit;
+	m_debugDraw->SetFlags(flags);
 	
 	
 	// Define the ground body.
@@ -269,6 +286,19 @@ enum {
 
 -(void) update: (ccTime) dt
 {
+  
+  if(_tapDown){
+    if(_squirrel.awake == NO){
+      [_squirrel wake];
+      _tapDown = NO;
+    }else{
+      [_squirrel jump];
+      _tapDown = NO;
+    }
+  }
+  
+  [_squirrel limitVelocity];
+  
 	//It is recommended that a fixed time step is used with Box2D for stability
 	//of the simulation, however, we are using a variable time step here.
 	//You need to make an informed choice, the following URL is useful
@@ -279,19 +309,36 @@ enum {
 	
 	// Instruct the world to perform a single step of simulation. It is
 	// generally best to keep the time step and iterations fixed.
-	world->Step(dt, velocityIterations, positionIterations);	
+  [_squirrel update];
+  float offset = _squirrel.position.x;
+  
+	world->Step(dt, velocityIterations, positionIterations);
 }
 
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	//Add a new body/atlas sprite at the touched location
-	for( UITouch *touch in touches ) {
-		CGPoint location = [touch locationInView: [touch view]];
-		
-		location = [[CCDirector sharedDirector] convertToGL: location];
-		
-		[self addNewSpriteAtPosition: location];
-	}
+-(void)setOffsetX:(float)newOffsetX{
+  CGSize winSize = [[CCDirector sharedDirector] winSize];
+  _offsetX = newOffsetX;
+  
+  self.position = CGPointMake(winSize.width/8 - _offsetX * self.scale, 0);
+}
+
+#pragma mark - TOUCH EVENTS
+// The touch events set one boolean variable that is analyzed inside the 'update'
+// function. The update function will determine what to do with the character
+// depending on this variable
+
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+  _tapDown = YES;
+}
+
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+  _tapDown = NO;
+  
+//  [_squirrel jump];
+}
+
+- (void)ccTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
+	_tapDown = NO;
 }
 
 #pragma mark GameKit delegate

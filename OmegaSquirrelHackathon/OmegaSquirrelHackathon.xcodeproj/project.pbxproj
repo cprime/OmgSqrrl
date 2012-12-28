@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		439CAF10168E5C0A00B2CC3D /* OmegaObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 439CAF0D168E5C0A00B2CC3D /* OmegaObject.mm */; };
+		439CAF11168E5C0A00B2CC3D /* squirrel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 439CAF0F168E5C0A00B2CC3D /* squirrel.mm */; };
 		E6434634168DF0A000EAF62B /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434633168DF0A000EAF62B /* Player.m */; };
 		E6434638168E008800EAF62B /* PowerUp.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434637168E008800EAF62B /* PowerUp.m */; };
 		E643463B168E0E7A00EAF62B /* MainMenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E643463A168E0E7A00EAF62B /* MainMenuLayer.mm */; };
@@ -197,6 +199,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		439CAF0C168E5C0A00B2CC3D /* OmegaObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OmegaObject.h; sourceTree = "<group>"; };
+		439CAF0D168E5C0A00B2CC3D /* OmegaObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OmegaObject.mm; sourceTree = "<group>"; };
+		439CAF0E168E5C0A00B2CC3D /* squirrel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = squirrel.h; sourceTree = "<group>"; };
+		439CAF0F168E5C0A00B2CC3D /* squirrel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = squirrel.mm; sourceTree = "<group>"; };
 		E6434632168DF0A000EAF62B /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		E6434633168DF0A000EAF62B /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		E6434636168E008800EAF62B /* PowerUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUp.h; sourceTree = "<group>"; };
@@ -688,6 +694,10 @@
 				E6434633168DF0A000EAF62B /* Player.m */,
 				E6434636168E008800EAF62B /* PowerUp.h */,
 				E6434637168E008800EAF62B /* PowerUp.m */,
+				439CAF0C168E5C0A00B2CC3D /* OmegaObject.h */,
+				439CAF0D168E5C0A00B2CC3D /* OmegaObject.mm */,
+				439CAF0E168E5C0A00B2CC3D /* squirrel.h */,
+				439CAF0F168E5C0A00B2CC3D /* squirrel.mm */,
 				E6EC1226168CEF5D00BD05E4 /* Resources */,
 				E6EC1240168CEF5D00BD05E4 /* libs */,
 				E6EC142C168CEF5F00BD05E4 /* Supporting Files */,
@@ -1455,6 +1465,8 @@
 				E6434641168E1A9200EAF62B /* GameOverLayer.mm in Sources */,
 				E6434644168E1B5300EAF62B /* LevelTracker.m in Sources */,
 				E6434647168E2CD100EAF62B /* GameHUDLayer.m in Sources */,
+				439CAF10168E5C0A00B2CC3D /* OmegaObject.mm in Sources */,
+				439CAF11168E5C0A00B2CC3D /* squirrel.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
