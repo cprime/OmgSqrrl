@@ -7,7 +7,7 @@
 //
 
 #import "MainMenuLayer.h"
-#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 
 //temp
 #import "GameOverLayer.h"
@@ -16,7 +16,7 @@
 @implementation MainMenuLayer
 
 - (void)playButtonClicked {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] withColor:ccBLACK]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[GameLayer scene] withColor:ccBLACK]];
 }
 
 +(CCScene *) scene

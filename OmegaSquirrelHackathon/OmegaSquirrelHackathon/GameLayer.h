@@ -1,5 +1,5 @@
 //
-//  HelloWorldLayer.h
+//  GameLayer.h
 //  OmegaSquirrelHackathon
 //
 //  Created by Colden Prime on 12/27/12.
@@ -19,8 +19,8 @@
 @class Player;
 @class LevelTracker;
 
-// HelloWorldLayer
-@interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
+// GameLayer
+@interface GameLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
 {
     int _offsetX;
 	CCTexture2D *spriteTexture_;	// weak ref
@@ -39,7 +39,7 @@
 
 @property (retain) CCSpriteBatchNode *batchNode;
 
-// returns a CCScene that contains the HelloWorldLayer as the only child
+// returns a CCScene that contains the GameLayer as the only child
 + (CCScene *)scene;
 - (void)setOffsetX:(float)newOffsetX;
 

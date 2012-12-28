@@ -14,10 +14,10 @@
 
 #pragma mark - IntroLayer
 
-// HelloWorldLayer implementation
+// GameLayer implementation
 @implementation IntroLayer
 
-// Helper class method that creates a Scene with the HelloWorldLayer as the only child.
+// Helper class method that creates a Scene with the GameLayer as the only child.
 + (CCScene *)scene
 {
 	// 'scene' is an autorelease object.

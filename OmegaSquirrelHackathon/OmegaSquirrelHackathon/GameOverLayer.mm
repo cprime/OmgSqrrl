@@ -8,12 +8,12 @@
 
 #import "GameOverLayer.h"
 #import "LevelTracker.h"
-#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 
 @implementation GameOverLayer
 
 - (void)playButtonClicked {
-    [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer scene]];
+    [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
 }
 
 + (CCScene *)sceneWithTracker:(LevelTracker *)tracker {

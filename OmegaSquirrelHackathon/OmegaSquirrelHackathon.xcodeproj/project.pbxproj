@@ -192,7 +192,7 @@
 		E6EC1429168CEF5F00BD05E4 /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6EC1428168CEF5F00BD05E4 /* b2Rope.cpp */; };
 		E6EC142F168CEF5F00BD05E4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E6EC142E168CEF5F00BD05E4 /* main.m */; };
 		E6EC1432168CEF5F00BD05E4 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC1431168CEF5F00BD05E4 /* AppDelegate.mm */; };
-		E6EC1435168CEF5F00BD05E4 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC1434168CEF5F00BD05E4 /* HelloWorldLayer.mm */; };
+		E6EC1435168CEF5F00BD05E4 /* GameLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC1434168CEF5F00BD05E4 /* GameLayer.mm */; };
 		E6EC143B168CEF5F00BD05E4 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC143A168CEF5F00BD05E4 /* GLES-Render.mm */; };
 		E6EC143E168CEF5F00BD05E4 /* PhysicsSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = E6EC143D168CEF5F00BD05E4 /* PhysicsSprite.mm */; };
 		E6EC1440168CEF5F00BD05E4 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = E6EC143F168CEF5F00BD05E4 /* blocks.png */; };
@@ -576,8 +576,8 @@
 		E6EC142E168CEF5F00BD05E4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E6EC1430168CEF5F00BD05E4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E6EC1431168CEF5F00BD05E4 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		E6EC1433168CEF5F00BD05E4 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
-		E6EC1434168CEF5F00BD05E4 /* HelloWorldLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldLayer.mm; sourceTree = "<group>"; };
+		E6EC1433168CEF5F00BD05E4 /* GameLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
+		E6EC1434168CEF5F00BD05E4 /* GameLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameLayer.mm; sourceTree = "<group>"; };
 		E6EC1439168CEF5F00BD05E4 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		E6EC143A168CEF5F00BD05E4 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
 		E6EC143C168CEF5F00BD05E4 /* PhysicsSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhysicsSprite.h; sourceTree = "<group>"; };
@@ -689,8 +689,8 @@
 				E643463D168E187000EAF62B /* IntroLayer.mm */,
 				E6434639168E0E7A00EAF62B /* MainMenuLayer.h */,
 				E643463A168E0E7A00EAF62B /* MainMenuLayer.mm */,
-				E6EC1433168CEF5F00BD05E4 /* HelloWorldLayer.h */,
-				E6EC1434168CEF5F00BD05E4 /* HelloWorldLayer.mm */,
+				E6EC1433168CEF5F00BD05E4 /* GameLayer.h */,
+				E6EC1434168CEF5F00BD05E4 /* GameLayer.mm */,
 				E6434645168E2CD000EAF62B /* GameHUDLayer.h */,
 				E6434646168E2CD000EAF62B /* GameHUDLayer.m */,
 				E643463F168E1A9200EAF62B /* GameOverLayer.h */,
@@ -1463,7 +1463,7 @@
 				E6EC1429168CEF5F00BD05E4 /* b2Rope.cpp in Sources */,
 				E6EC142F168CEF5F00BD05E4 /* main.m in Sources */,
 				E6EC1432168CEF5F00BD05E4 /* AppDelegate.mm in Sources */,
-				E6EC1435168CEF5F00BD05E4 /* HelloWorldLayer.mm in Sources */,
+				E6EC1435168CEF5F00BD05E4 /* GameLayer.mm in Sources */,
 				E6EC143B168CEF5F00BD05E4 /* GLES-Render.mm in Sources */,
 				E6EC143E168CEF5F00BD05E4 /* PhysicsSprite.mm in Sources */,
 				E6434634168DF0A000EAF62B /* Player.m in Sources */,
