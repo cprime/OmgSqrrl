@@ -11,10 +11,16 @@
 #import "Box2D.h"
 
 @interface OmegaObject : CCNode {
-  b2Body *body_;
-  CCSprite *_sprite;
+    b2World *_world;
+    b2Body *_body;
 }
 
-- (id)initWithSprite:(CCSprite *)sprite;
+@property (nonatomic, assign) b2World *world;
+@property (nonatomic, assign) b2Body *body;
+
+- (id)initWithWorld:(b2World *)world;
+
+- (void)setupBox2DBody;
+- (void)setupCocos2dChildern;
 
 @end

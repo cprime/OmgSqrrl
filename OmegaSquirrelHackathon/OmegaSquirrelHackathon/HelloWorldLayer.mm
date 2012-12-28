@@ -95,14 +95,10 @@ enum {
         [self addChild:self.HUDLayer z:100];
 		
 		[self scheduleUpdate];
-    
-//    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"testOS.plist"];
-//    _batchNode = [CCSpriteBatchNode batchNodeWithFile:@"testOS.jpg"];
-//    [self addChild:_batchNode];
 
-    _squirrel = [[[squirrel alloc] initWithWorld:world] autorelease];
-    [_squirrel setState:OSStateRunning];
-    [self addChild:_squirrel];
+        _squirrel = [[[Squirrel alloc] initWithWorld:world] autorelease];
+        [_squirrel setState:SquirrelStateRunning];
+        [self addChild:_squirrel];
     
 	}
   

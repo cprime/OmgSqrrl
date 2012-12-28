@@ -1,36 +1,27 @@
 //
-//  squirrel.m
+//  Squirrel.m
 //  OmegaSquirrelHackathon
 //
 //  Created by Patrick Butkiewicz on 12/28/12.
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "squirrel.h"
+#import "Squirrel.h"
 
 
-@implementation squirrel
+@implementation Squirrel
 
 @synthesize awake = _awake;
 @synthesize state = _state;
-
-- (id)initWithWorld:(b2World *)world{
-  if((self = [super init])){
-    _world = world;
-    [self createBody];
-  }
-  
-  return self;
-}
 
 - (void)update{
   self.position = ccp(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);
   b2Vec2 vel = _body->GetLinearVelocity();
   
   // TODO: Change this to check if squirrel body is colliding with ground or platform object
-  if(self.state != OSStateRunning && 1 /* Body is colliding with ground object / platform */){
+  if(self.state != SquirrelStateRunning && 1 /* Body is colliding with ground object / platform */){
     NSLog(@"Squirrel Is Running");
-    [self setState:OSStateRunning];
+    [self setState:SquirrelStateRunning];
   }
   
   float angle = ccpToAngle(ccp(vel.x, vel.y));
@@ -39,7 +30,7 @@
   }
 }
 
-- (void) createBody{
+- (void)setupBox2DBody{
   float radius = 16.0f;
   CGSize size = [[CCDirector sharedDirector] winSize];
   float screenHeight = size.height;
@@ -66,6 +57,15 @@
   
 }
 
+- (void)setupCocos2dChildern {
+    CCSprite *sprite = [CCSprite spriteWithFile:@"Icon-72.png"];
+    sprite.anchorPoint = ccp(0, 0);
+    [self addChild:sprite];
+    
+    self.contentSize = sprite.contentSize;
+}
+
+
 // Applies a linear "impulse" to get the squirrel moving
 -(void)wake{
   _awake = YES;
@@ -77,14 +77,14 @@
 // Controls the jumping of the squirrel
 -(void)jump{
   
-  if(self.state == OSStateRunning){
+  if(self.state == SquirrelStateRunning){
     NSLog(@"Single Jump!");
     _body->ApplyForce(b2Vec2(JUMP_X_FORCE, JUMP_Y_FORCE), _body->GetPosition());
-    [self setState:OSStateSingleJump];
-  }else if(self.state == OSStateSingleJump){
+    [self setState:SquirrelStateSingleJump];
+  }else if(self.state == SquirrelStateSingleJump){
     NSLog(@"Double Jump!");
     _body->ApplyForce(b2Vec2(JUMP_X_FORCE, JUMP_Y_FORCE), _body->GetPosition());
-    [self setState:OSStateDoubleJump];
+    [self setState:SquirrelStateDoubleJump];
   }
 }
 

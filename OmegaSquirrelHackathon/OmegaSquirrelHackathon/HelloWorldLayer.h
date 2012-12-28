@@ -22,15 +22,15 @@
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
 {
-  int _offsetX;
+    int _offsetX;
 	CCTexture2D *spriteTexture_;	// weak ref
 	b2World* world;					// strong ref
 	GLESDebugDraw *m_debugDraw;		// strong ref
-  
-  CCSpriteBatchNode *_batchNode;
-  squirrel * _squirrel;
-  
-  BOOL _tapDown;
+    
+    CCSpriteBatchNode *_batchNode;
+    Squirrel * _squirrel;
+    
+    BOOL _tapDown;
 }
 
 @property (nonatomic, strong) GameHUDLayer *HUDLayer;
@@ -40,7 +40,7 @@
 @property (retain) CCSpriteBatchNode *batchNode;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
--(void)setOffsetX:(float)newOffsetX;
++ (CCScene *)scene;
+- (void)setOffsetX:(float)newOffsetX;
 
 @end
