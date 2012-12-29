@@ -11,7 +11,6 @@
 typedef enum {
     PowerUpTypeHealthBoost,
     PowerUpTypeSuperJump,
-    PowerUpTypeTripleJump,
     PowerUpTypeSpeedBoost,
 } PowerUpType;
 

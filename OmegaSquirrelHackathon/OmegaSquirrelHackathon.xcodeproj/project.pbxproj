@@ -17,6 +17,9 @@
 		E6434644168E1B5300EAF62B /* LevelTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434643168E1B5200EAF62B /* LevelTracker.m */; };
 		E6434647168E2CD100EAF62B /* GameHUDLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6434646168E2CD000EAF62B /* GameHUDLayer.m */; };
 		E6434649168E337000EAF62B /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = E6434648168E337000EAF62B /* blank.png */; };
+		E66A7F42168FA540004CEFF7 /* AcornSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = E66A7F41168FA540004CEFF7 /* AcornSprite.mm */; };
+		E66A7F46168FA885004CEFF7 /* PowerUpSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = E66A7F45168FA885004CEFF7 /* PowerUpSprite.mm */; };
+		E66A7F49168FA9BF004CEFF7 /* KillBallSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = E66A7F48168FA9BF004CEFF7 /* KillBallSprite.m */; };
 		E698E58B168F1FF8006188D5 /* OmegaSquirrelTextures.zwd in Resources */ = {isa = PBXBuildFile; fileRef = E698E588168F1FF7006188D5 /* OmegaSquirrelTextures.zwd */; };
 		E698E58C168F1FF8006188D5 /* OmegaSquirrelTextures.plist in Resources */ = {isa = PBXBuildFile; fileRef = E698E589168F1FF7006188D5 /* OmegaSquirrelTextures.plist */; };
 		E698E58D168F1FF8006188D5 /* OmegaSquirrelTextures.png in Resources */ = {isa = PBXBuildFile; fileRef = E698E58A168F1FF8006188D5 /* OmegaSquirrelTextures.png */; };
@@ -225,6 +228,12 @@
 		E6434645168E2CD000EAF62B /* GameHUDLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameHUDLayer.h; sourceTree = "<group>"; };
 		E6434646168E2CD000EAF62B /* GameHUDLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameHUDLayer.m; sourceTree = "<group>"; };
 		E6434648168E337000EAF62B /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
+		E66A7F40168FA540004CEFF7 /* AcornSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcornSprite.h; sourceTree = "<group>"; };
+		E66A7F41168FA540004CEFF7 /* AcornSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AcornSprite.mm; sourceTree = "<group>"; };
+		E66A7F44168FA885004CEFF7 /* PowerUpSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerUpSprite.h; sourceTree = "<group>"; };
+		E66A7F45168FA885004CEFF7 /* PowerUpSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PowerUpSprite.mm; sourceTree = "<group>"; };
+		E66A7F47168FA9BF004CEFF7 /* KillBallSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KillBallSprite.h; sourceTree = "<group>"; };
+		E66A7F48168FA9BF004CEFF7 /* KillBallSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KillBallSprite.m; sourceTree = "<group>"; };
 		E698E588168F1FF7006188D5 /* OmegaSquirrelTextures.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; name = OmegaSquirrelTextures.zwd; path = Resources/OmegaSquirrelTextures.zwd; sourceTree = "<group>"; };
 		E698E589168F1FF7006188D5 /* OmegaSquirrelTextures.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = OmegaSquirrelTextures.plist; path = Resources/OmegaSquirrelTextures.plist; sourceTree = "<group>"; };
 		E698E58A168F1FF8006188D5 /* OmegaSquirrelTextures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = OmegaSquirrelTextures.png; path = Resources/OmegaSquirrelTextures.png; sourceTree = "<group>"; };
@@ -649,6 +658,12 @@
 				E698E592168F34B4006188D5 /* PowerPole.mm */,
 				E698E5A0168F885B006188D5 /* KillZone.h */,
 				E698E5A1168F885B006188D5 /* KillZone.mm */,
+				E66A7F40168FA540004CEFF7 /* AcornSprite.h */,
+				E66A7F41168FA540004CEFF7 /* AcornSprite.mm */,
+				E66A7F44168FA885004CEFF7 /* PowerUpSprite.h */,
+				E66A7F45168FA885004CEFF7 /* PowerUpSprite.mm */,
+				E66A7F47168FA9BF004CEFF7 /* KillBallSprite.h */,
+				E66A7F48168FA9BF004CEFF7 /* KillBallSprite.m */,
 			);
 			name = OmegaObject;
 			sourceTree = "<group>";
@@ -1499,6 +1514,9 @@
 				E698E59F168F58CC006188D5 /* GamePanel.mm in Sources */,
 				E698E5A2168F885C006188D5 /* KillZone.mm in Sources */,
 				E698E5AE168F929D006188D5 /* MyContactListener.mm in Sources */,
+				E66A7F42168FA540004CEFF7 /* AcornSprite.mm in Sources */,
+				E66A7F46168FA885004CEFF7 /* PowerUpSprite.mm in Sources */,
+				E66A7F49168FA9BF004CEFF7 /* KillBallSprite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

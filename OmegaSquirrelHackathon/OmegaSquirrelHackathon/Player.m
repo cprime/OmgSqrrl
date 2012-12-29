@@ -42,14 +42,6 @@
     }
     return ret;
 }
-- (BOOL)canTripleJump {
-    for(PowerUp *powerUp in self.activePowerUps) {
-        if(powerUp.type == PowerUpTypeTripleJump) {
-            return YES;
-        }
-    }
-    return NO;
-}
 - (BOOL)isAlive {
     return _currentHealth > 0;
 }

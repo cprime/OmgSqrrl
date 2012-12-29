@@ -24,10 +24,6 @@
             ret.totalTotal = 5;
             ret.value = .5;
             break;
-        case PowerUpTypeTripleJump:
-            ret.totalTotal = 5;
-            ret.value = 0;
-            break;
         case PowerUpTypeSpeedBoost:
             ret.totalTotal = 5;
             ret.value = .5;

@@ -21,7 +21,6 @@
 @property (nonatomic, readonly) float currentHealth;
 @property (nonatomic, readonly) float currentRunSpeed;
 @property (nonatomic, readonly) float currentJumpPower;
-@property (nonatomic, readonly) BOOL canTripleJump;
 @property (nonatomic, readonly) BOOL isAlive;
 
 - (void)addActivePowerUp:(PowerUp *)powerUp;
