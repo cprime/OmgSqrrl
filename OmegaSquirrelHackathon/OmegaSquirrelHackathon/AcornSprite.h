@@ -6,7 +6,7 @@
 //
 //
 
-#import "OmegaObject.h"
+#import "OmegaSprite.h"
 
 typedef enum {
     AcornTypeOne,
@@ -14,7 +14,7 @@ typedef enum {
     AcornTypeTen,
 } AcornType;
 
-@interface AcornSprite : OmegaObject
+@interface AcornSprite : OmegaSprite
 
 @property (nonatomic, assign) AcornType type;
 @property (nonatomic, readonly) int value;

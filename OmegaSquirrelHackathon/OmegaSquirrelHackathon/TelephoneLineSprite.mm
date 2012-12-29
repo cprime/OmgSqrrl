@@ -1,27 +1,23 @@
 //
-//  KillZone.m
+//  TelephoneLineSprite.m
 //  OmegaSquirrelHackathon
 //
-//  Created by Colden Prime on 12/29/12.
+//  Created by Colden Prime on 12/28/12.
 //
 //
 
-#import "KillZone.h"
+#import "TelephoneLineSprite.h"
 
-@implementation KillZone
+@implementation TelephoneLineSprite
 
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location {
-    return [self initWithWorld:world atLocation:location size:CGSizeMake([[CCDirector sharedDirector] winSize].width, 2)];
-}
-
-- (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location size:(CGSize)size {
     self = [super init];
     if(self) {
         self.world = world;
-        self.ethereal = YES;
+        self.ethereal = NO;
+        
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"omega_powerline.png"]];
-        self.opacity = 0;
-        self.contentSize = size;
+        
         [self setupBox2DBodyAtLocation:location];
     }
     return self;
@@ -32,7 +28,6 @@
     bd.type = b2_staticBody;
     bd.position.Set(location.x/PTM_RATIO, location.y/PTM_RATIO);
     bd.userData = self;
-    
     _body = _world->CreateBody(&bd);
     
     b2PolygonShape shape;

@@ -6,9 +6,9 @@
 //
 //
 
-#import "OmegaObject.h"
+#import "OmegaSprite.h"
 
-@interface KillBallSprite : OmegaObject
+@interface KillBallSprite : OmegaSprite
 
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location size:(CGSize)size;
 

@@ -1,14 +1,14 @@
 //
-//  PowerPole.m
+//  TelephonePoleSprite.m
 //  OmegaSquirrelHackathon
 //
 //  Created by Colden Prime on 12/29/12.
 //
 //
 
-#import "PowerPole.h"
+#import "TelephonePoleSprite.h"
 
-@implementation PowerPole
+@implementation TelephonePoleSprite
 
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location {
     self = [super init];

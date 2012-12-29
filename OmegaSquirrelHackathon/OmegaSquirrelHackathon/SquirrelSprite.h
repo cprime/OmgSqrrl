@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Box2D.h"
-#import "OmegaObject.h"
+#import "OmegaSprite.h"
 
 @class Player;
 
-@interface Squirrel : OmegaObject
+@interface SquirrelSprite : OmegaSprite
 
 @property (nonatomic, retain) Player *player;
 

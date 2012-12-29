@@ -1,14 +1,14 @@
 //
-//  OmegaObject.m
+//  OmegaSprite.m
 //  OmegaSquirrelHackathon
 //
 //  Created by Patrick Butkiewicz on 12/27/12.
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "OmegaObject.h"
+#import "OmegaSprite.h"
 
-@implementation OmegaObject
+@implementation OmegaSprite
 
 @synthesize world = _world;
 @synthesize body = _body;

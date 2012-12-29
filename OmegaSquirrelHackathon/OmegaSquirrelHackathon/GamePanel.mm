@@ -7,9 +7,9 @@
 //
 
 #import "GamePanel.h"
-#import "OmegaObject.h"
-#import "PowerPole.h"
-#import "KillZone.h"
+#import "OmegaSprite.h"
+#import "TelephonePoleSprite.h"
+#import "KillZoneSprite.h"
 
 #define BackgroundCount 4
 #define BackgroundName [NSString stringWithFormat:@"Omega_ipad_bckgrnd_%d.png", (nextBackground % BackgroundCount) + 1]
@@ -22,10 +22,10 @@ static int nextBackground = 3;
 - (void)setupPanelAWithWorld:(b2World *)world atOffset:(CGPoint)startingOffset {
     CGSize size = [[CCDirector sharedDirector] winSize];
     
-    KillZone *killZone = [[[KillZone alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(size.width / 2.0, -100))] autorelease];
+    KillZoneSprite *killZone = [[[KillZoneSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(size.width / 2.0, -100))] autorelease];
     [self.sprites addObject:killZone];
     
-    PowerPole *pole = [[[PowerPole alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(400, 200))] autorelease];
+    TelephonePoleSprite *pole = [[[TelephonePoleSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(400, 200))] autorelease];
     [self.sprites addObject:pole];
 }
 
@@ -55,7 +55,7 @@ static int nextBackground = 3;
 - (void)destroyPanel {
     [self.backgroundSprite removeFromParentAndCleanup:NO];
     
-    for(OmegaObject *o in self.sprites) {
+    for(OmegaSprite *o in self.sprites) {
         [o removeFromParentAndCleanup:NO];
         o.body->GetWorld()->DestroyBody(o.body);
     }

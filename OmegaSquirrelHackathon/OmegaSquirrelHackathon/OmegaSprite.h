@@ -1,5 +1,5 @@
 //
-//  OmegaObject.h
+//  OmegaSprite.h
 //  OmegaSquirrelHackathon
 //
 //  Created by Patrick Butkiewicz on 12/27/12.
@@ -10,7 +10,7 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 
-@interface OmegaObject : CCSprite {
+@interface OmegaSprite : CCSprite {
     b2World *_world;
     b2Body *_body;
 }

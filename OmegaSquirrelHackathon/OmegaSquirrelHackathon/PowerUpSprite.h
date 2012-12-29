@@ -6,11 +6,11 @@
 //
 //
 
-#import "OmegaObject.h"
+#import "OmegaSprite.h"
 
 @class PowerUp;
 
-@interface PowerUpSprite : OmegaObject
+@interface PowerUpSprite : OmegaSprite
 
 @property (nonatomic, strong) PowerUp *powerUp;
 

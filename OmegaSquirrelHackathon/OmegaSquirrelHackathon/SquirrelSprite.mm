@@ -6,14 +6,14 @@
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Squirrel.h"
+#import "SquirrelSprite.h"
 #import "Player.h"
 #import "PowerUp.h"
 
 #define SquirrelRunImpulse 40
 #define SquirrelJumpImpulse 80
 
-@implementation Squirrel
+@implementation SquirrelSprite
 
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location {
     self = [super init];

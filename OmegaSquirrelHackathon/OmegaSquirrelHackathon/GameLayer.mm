@@ -14,8 +14,8 @@
 #import "Player.h"
 #import "GameHUDLayer.h"
 #import "LevelTracker.h"
-#import "PowerLine.h"
-#import "PowerPole.h"
+#import "TelephoneLineSprite.h"
+#import "TelephonePoleSprite.h"
 #import "GamePanel.h"
 
 enum {
@@ -92,7 +92,7 @@ enum {
         [self addChild:_batchNode z:kZOrderBatchNode];
         [self initPanels];
         
-        _squirrel = [[[Squirrel alloc] initWithWorld:world atLocation:ccp(200, 708)] autorelease];
+        _squirrel = [[[SquirrelSprite alloc] initWithWorld:world atLocation:ccp(200, 708)] autorelease];
         _squirrel.player = self.playerModel;
         [_batchNode addChild:_squirrel z:INT32_MAX];
         
@@ -184,7 +184,7 @@ enum {
     world->Step(dt, velocityIterations, positionIterations);
     for(b2Body *b=world->GetBodyList(); b!=NULL; b=b->GetNext()) {
         if (b->GetUserData() != NULL) {
-            OmegaObject *sprite = (OmegaObject *) b->GetUserData();
+            OmegaSprite *sprite = (OmegaSprite *) b->GetUserData();
             sprite.position = ccp(b->GetPosition().x * PTM_RATIO,
                                   b->GetPosition().y * PTM_RATIO);
             sprite.rotation =
@@ -231,7 +231,7 @@ enum {
 
 - (void)addPanel:(GamePanel *)panel {
     [self addChild:panel.backgroundSprite z:kZOrderBackground];
-    for(OmegaObject *o in panel.sprites) {
+    for(OmegaSprite *o in panel.sprites) {
         [_batchNode addChild:o z:0];
     }
 }
@@ -276,8 +276,8 @@ enum {
     b2Body* bodyA = contact->GetFixtureA()->GetBody();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();
     
-    OmegaObject* spriteA = (OmegaObject*)bodyA->GetUserData();
-    OmegaObject* spriteB = (OmegaObject*)bodyB->GetUserData();
+    OmegaSprite* spriteA = (OmegaSprite*)bodyA->GetUserData();
+    OmegaSprite* spriteB = (OmegaSprite*)bodyB->GetUserData();
     
     if (spriteA.ethereal || spriteB.ethereal) {
         contact->SetEnabled(false);

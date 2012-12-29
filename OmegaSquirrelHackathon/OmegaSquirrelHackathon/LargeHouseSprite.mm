@@ -1,14 +1,14 @@
 //
-//  LargeHouse.m
+//  LargeHouseSprite.m
 //  OmegaSquirrelHackathon
 //
 //  Created by Colden Prime on 12/29/12.
 //
 //
 
-#import "LargeHouse.h"
+#import "LargeHouseSprite.h"
 
-@implementation LargeHouse
+@implementation LargeHouseSprite
 
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location {
     self = [super init];
