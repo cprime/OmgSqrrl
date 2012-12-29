@@ -11,32 +11,13 @@
 #import "Box2D.h"
 #import "OmegaObject.h"
 
-static const float MINIMUM_X_VELOCITY = 5.0f;
-static const float MAXIMUM_X_VELOCITY = 25.0f;
-
-static const float MINIMUM_Y_VELOCITY = 5.0f;
-static const float MAXIMUM_Y_VELOCITY = 25.0f;
-
-static const float JUMP_X_FORCE = 40.0f;
-static const float JUMP_Y_FORCE = 220.0f;
-
-typedef enum{
-  SquirrelStateFalling,
-  SquirrelStateRunning,
-  SquirrelStateSingleJump,
-  SquirrelStateDoubleJump,
-  SquirrelStateDead
-} SquirrelState;
+@class Player;
 
 @interface Squirrel : OmegaObject
 
-@property (readonly) BOOL awake;
-@property (assign) SquirrelState state;
+@property (nonatomic, retain) Player *player;
 
--(void)wake;
--(void)jump;
--(void)limitVelocity;
-
-- (void)update;
+- (void)run;
+- (void)jump;
 
 @end

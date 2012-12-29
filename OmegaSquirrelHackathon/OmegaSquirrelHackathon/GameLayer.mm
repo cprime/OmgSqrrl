@@ -14,26 +14,45 @@
 #import "Player.h"
 #import "GameHUDLayer.h"
 #import "LevelTracker.h"
-
-#import "PhysicsSprite.h"
+#import "PowerLine.h"
+#import "PowerPole.h"
+#import "GamePanel.h"
 
 enum {
 	kTagParentNode = 1,
+};
+
+enum {
+	kZOrderBackground = -1,
+    kZOrderBatchNode = 1,
 };
 
 
 #pragma mark - GameLayer
 
 @interface GameLayer()
+@property (nonatomic, assign) MyContactListener *contactListener;
+@property (nonatomic, retain) GamePanel *prevPanel;
+@property (nonatomic, retain) GamePanel *currPanel;
+@property (nonatomic, retain) GamePanel *nextPanel;
+- (void)initPanels;
+- (void)addPanel:(GamePanel *)panel;
+- (void)updatePanels;
 
--(void) initPhysics;
--(void) addNewSpriteAtPosition:(CGPoint)p;
--(void) createMenu;
+- (void)initPhysics;
 @end
 
 @implementation GameLayer
 
-@synthesize batchNode = _batchNode;
+- (void)followSquirrel {
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    float fixedPosition = winSize.width/4;
+    float newX = fixedPosition - _squirrel.position.x;
+//    newX = MIN(newX, fixedPosition);
+//    newX = MAX(newX, -0/*groundMaxX*/-fixedPosition);
+    CGPoint newPos = ccp(newX, self.position.y);
+    [self setPosition:newPos];
+}
 
 +(CCScene *) scene
 {
@@ -50,41 +69,11 @@ enum {
 	return scene;
 }
 
--(id) init
+- (id)init
 {
-	if( (self=[super init])) {
-		
-		// enable events
-		
+	if( (self = [super init])) {
+        CGSize s = [[CCDirector sharedDirector] winSize];
 		self.isTouchEnabled = YES;
-		self.isAccelerometerEnabled = YES;
-		CGSize s = [CCDirector sharedDirector].winSize;
-		
-		// init physics
-		[self initPhysics];
-		
-		// create reset button
-		[self createMenu];
-		
-		//Set up sprite
-		
-#if 1
-		// Use batch node. Faster
-		CCSpriteBatchNode *parent = [CCSpriteBatchNode batchNodeWithFile:@"blocks.png" capacity:100];
-		spriteTexture_ = [parent texture];
-#else
-		// doesn't use batch node. Slower
-		spriteTexture_ = [[CCTextureCache sharedTextureCache] addImage:@"blocks.png"];
-		CCNode *parent = [CCNode node];
-#endif
-		[self addChild:parent z:0 tag:kTagParentNode];
-		
-		[self addNewSpriteAtPosition:ccp(s.width/2, s.height/2)];
-		
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap screen" fontName:@"Marker Felt" fontSize:32];
-		[self addChild:label z:0];
-		[label setColor:ccc3(0,0,255)];
-		label.position = ccp( s.width/2, s.height-50);
         
         self.playerModel = [[Player alloc] init];
         self.levelTracker = [[LevelTracker alloc] init];
@@ -92,21 +81,46 @@ enum {
         self.HUDLayer = [[GameHUDLayer alloc] init];
         self.HUDLayer.tracker = self.levelTracker;
         self.HUDLayer.player = self.playerModel;
-        [self addChild:self.HUDLayer z:100];
-		
-		[self scheduleUpdate];
-
-        _squirrel = [[[Squirrel alloc] initWithWorld:world] autorelease];
-        [_squirrel setState:SquirrelStateRunning];
-        [self addChild:_squirrel];
-    
+        
+		[self initPhysics];
+        self.contactListener = new MyContactListener();
+        self.contactListener->delegate = self;
+        world->SetContactListener(self.contactListener);
+        
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"OmegaSquirrelTextures.plist"];
+        _batchNode = [CCSpriteBatchNode batchNodeWithFile:@"OmegaSquirrelTextures.png"];
+        [self addChild:_batchNode z:kZOrderBatchNode];
+        [self initPanels];
+        
+        _squirrel = [[[Squirrel alloc] initWithWorld:world atLocation:ccp(200, 708)] autorelease];
+        _squirrel.player = self.playerModel;
+        [_batchNode addChild:_squirrel z:INT32_MAX];
+        
+        //temp
+        b2BodyDef groundBodyDef;
+        groundBodyDef.position.Set(0, 0); // bottom-left corner
+        b2Body* groundBody = world->CreateBody(&groundBodyDef);
+        b2EdgeShape groundBox;
+        groundBox.Set(b2Vec2(0, 1000 / PTM_RATIO), b2Vec2(s.width/PTM_RATIO, 1000 / PTM_RATIO));
+        groundBody->CreateFixture(&groundBox,0);
+        
+        b2PrismaticJointDef jointDef;
+        b2Vec2 worldAxis(1.0f, 0.0f);
+        jointDef.collideConnected = true;
+        jointDef.Initialize(_squirrel.body, groundBody,
+                            _squirrel.body->GetWorldCenter(), worldAxis);
+        world->CreateJoint(&jointDef);
+        
+        [self scheduleUpdate];
 	}
-  
+    
 	return self;
 }
 
 - (void)onEnterTransitionDidFinish {
-  [_squirrel wake];
+    [self.parent addChild:self.HUDLayer z:100];
+    
+    [_squirrel run];
 }
 
 -(void) dealloc
@@ -118,63 +132,10 @@ enum {
 	m_debugDraw = NULL;
 	
 	[super dealloc];
-}	
-
--(void) createMenu
-{
-	// Default font size will be 22 points.
-	[CCMenuItemFont setFontSize:22];
-	
-	// Reset Button
-	CCMenuItemLabel *reset = [CCMenuItemFont itemWithString:@"Reset" block:^(id sender){
-		[[CCDirector sharedDirector] replaceScene: [GameLayer scene]];
-	}];
-	
-	// Achievement Menu Item using blocks
-//	CCMenuItem *itemAchievement = [CCMenuItemFont itemWithString:@"Achievements" block:^(id sender) {
-//		
-//		
-//		GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
-//		achivementViewController.achievementDelegate = self;
-//		
-//		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-//		
-//		[[app navController] presentModalViewController:achivementViewController animated:YES];
-//		
-//		[achivementViewController release];
-//	}];
-//	
-//	// Leaderboard Menu Item using blocks
-//	CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:^(id sender) {
-//		
-//		
-//		GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
-//		leaderboardViewController.leaderboardDelegate = self;
-//		
-//		AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-//		
-//		[[app navController] presentModalViewController:leaderboardViewController animated:YES];
-//		
-//		[leaderboardViewController release];
-//	}];
-	
-//	CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, reset, nil];
-  CCMenu *menu = [CCMenu menuWithItems:reset, nil];
-
-	[menu alignItemsVertically];
-	
-	CGSize size = [[CCDirector sharedDirector] winSize];
-	[menu setPosition:ccp( size.width/2, size.height/2/2)];
-	
-	
-	[self addChild: menu z:-1];	
 }
 
--(void) initPhysics
+- (void)initPhysics
 {
-	
-	CGSize s = [[CCDirector sharedDirector] winSize];
-	
 	b2Vec2 gravity;
 	gravity.Set(0.0f, -10.0f);
 	world = new b2World(gravity);
@@ -190,41 +151,11 @@ enum {
 	
 	uint32 flags = 0;
 	flags += b2Draw::e_shapeBit;
-  flags += b2Draw::e_jointBit;
-  flags += b2Draw::e_aabbBit;
-  flags += b2Draw::e_pairBit;
-  flags += b2Draw::e_centerOfMassBit;
+    flags += b2Draw::e_jointBit;
+    flags += b2Draw::e_aabbBit;
+    flags += b2Draw::e_pairBit;
+    flags += b2Draw::e_centerOfMassBit;
 	m_debugDraw->SetFlags(flags);
-	
-	
-	// Define the ground body.
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0, 0); // bottom-left corner
-	
-	// Call the body factory which allocates memory for the ground body
-	// from a pool and creates the ground box shape (also from a pool).
-	// The body is also added to the world.
-	b2Body* groundBody = world->CreateBody(&groundBodyDef);
-	
-	// Define the ground box shape.
-	b2EdgeShape groundBox;		
-	
-	// bottom
-	
-	groundBox.Set(b2Vec2(0,0), b2Vec2(s.width/PTM_RATIO,0));
-	groundBody->CreateFixture(&groundBox,0);
-	
-	// top
-	groundBox.Set(b2Vec2(0,s.height/PTM_RATIO), b2Vec2(s.width/PTM_RATIO,s.height/PTM_RATIO));
-	groundBody->CreateFixture(&groundBox,0);
-	
-	// left
-	groundBox.Set(b2Vec2(0,s.height/PTM_RATIO), b2Vec2(0,0));
-	groundBody->CreateFixture(&groundBox,0);
-	
-	// right
-	groundBox.Set(b2Vec2(s.width/PTM_RATIO,s.height/PTM_RATIO), b2Vec2(s.width/PTM_RATIO,0));
-	groundBody->CreateFixture(&groundBox,0);
 }
 
 -(void) draw
@@ -240,82 +171,40 @@ enum {
 	
 	kmGLPushMatrix();
 	
-	world->DrawDebugData();	
+	world->DrawDebugData();
 	
 	kmGLPopMatrix();
 }
 
--(void) addNewSpriteAtPosition:(CGPoint)p
+- (void)update:(ccTime)dt
 {
-	CCLOG(@"Add sprite %0.2f x %02.f",p.x,p.y);
-	CCNode *parent = [self getChildByTag:kTagParentNode];
-	
-	//We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
-	//just randomly picking one of the images
-	int idx = (CCRANDOM_0_1() > .5 ? 0:1);
-	int idy = (CCRANDOM_0_1() > .5 ? 0:1);
-	PhysicsSprite *sprite = [PhysicsSprite spriteWithTexture:spriteTexture_ rect:CGRectMake(32 * idx,32 * idy,32,32)];						
-	[parent addChild:sprite];
-	
-	sprite.position = ccp( p.x, p.y);
-	
-	// Define the dynamic body.
-	//Set up a 1m squared box in the physics world
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(p.x/PTM_RATIO, p.y/PTM_RATIO);
-	b2Body *body = world->CreateBody(&bodyDef);
-	
-	// Define another box shape for our dynamic body.
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(.5f, .5f);//These are mid points for our 1m box
-	
-	// Define the dynamic body fixture.
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;	
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-	body->CreateFixture(&fixtureDef);
-	
-	[sprite setPhysicsBody:body];
-}
-
--(void) update: (ccTime) dt
-{
-  
-  if(_tapDown){
-    if(_squirrel.awake == NO){
-      [_squirrel wake];
-      _tapDown = NO;
-    }else{
-      [_squirrel jump];
-      _tapDown = NO;
+    int32 velocityIterations = 3;
+    int32 positionIterations = 2;
+    
+    world->Step(dt, velocityIterations, positionIterations);
+    for(b2Body *b=world->GetBodyList(); b!=NULL; b=b->GetNext()) {
+        if (b->GetUserData() != NULL) {
+            OmegaObject *sprite = (OmegaObject *) b->GetUserData();
+            sprite.position = ccp(b->GetPosition().x * PTM_RATIO,
+                                  b->GetPosition().y * PTM_RATIO);
+            sprite.rotation =
+            CC_RADIANS_TO_DEGREES(b->GetAngle() * -1);
+        }
     }
-  }
-  
-  [_squirrel limitVelocity];
-  
-	//It is recommended that a fixed time step is used with Box2D for stability
-	//of the simulation, however, we are using a variable time step here.
-	//You need to make an informed choice, the following URL is useful
-	//http://gafferongames.com/game-physics/fix-your-timestep/
-	
-	int32 velocityIterations = 8;
-	int32 positionIterations = 1;
-	
-	// Instruct the world to perform a single step of simulation. It is
-	// generally best to keep the time step and iterations fixed.
-  [_squirrel update];
-  float offset = _squirrel.position.x;
-  
-	world->Step(dt, velocityIterations, positionIterations);
+    
+    [self followSquirrel];
+    [self updatePanels];
+    
+    self.levelTracker.distanceTraveled = (_squirrel.body->GetPosition().x - (200 / PTM_RATIO)) * 10;
+    self.levelTracker.elapsedTime += dt;
+    [self.HUDLayer update];
 }
 
--(void)setOffsetX:(float)newOffsetX{
-  CGSize winSize = [[CCDirector sharedDirector] winSize];
-  _offsetX = newOffsetX;
-  
-  self.position = CGPointMake(winSize.width/8 - _offsetX * self.scale, 0);
+- (void)setOffsetX:(float)newOffsetX{
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    _offsetX = newOffsetX;
+    
+    self.position = CGPointMake(winSize.width/8 - _offsetX * self.scale, 0);
 }
 
 #pragma mark - TOUCH EVENTS
@@ -324,31 +213,79 @@ enum {
 // depending on this variable
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-  _tapDown = YES;
+    _tapDown = YES;
+    
+    [_squirrel jump];
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-  _tapDown = NO;
-  
-//  [_squirrel jump];
+    _tapDown = NO;
+    
 }
 
 - (void)ccTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
 	_tapDown = NO;
 }
 
-#pragma mark GameKit delegate
+#pragma mark - panels
 
--(void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
+- (void)addPanel:(GamePanel *)panel {
+    [self addChild:panel.backgroundSprite z:kZOrderBackground];
+    for(OmegaObject *o in panel.sprites) {
+        [_batchNode addChild:o z:0];
+    }
 }
 
--(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController
-{
-	AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
+- (void)initPanels {
+    CGSize s = [[CCDirector sharedDirector] winSize];
+    
+    self.prevPanel = [[GamePanel alloc] initPanelWithWorld:world atOffset:ccp(-s.width, 0)];
+    [self addPanel:self.prevPanel];
+    
+    self.currPanel = [[GamePanel alloc] initPanelWithWorld:world atOffset:ccp(0, 0)];
+    [self addPanel:self.currPanel];
+    
+    self.nextPanel = [[GamePanel alloc] initPanelWithWorld:world atOffset:ccp(s.width, 0)];
+    [self addPanel:self.nextPanel];
+}
+- (void)updatePanels {
+    if([self.prevPanel shouldDestroyPanel]) {
+        CGSize s = [[CCDirector sharedDirector] winSize];
+        
+        [self.prevPanel destroyPanel];
+        
+        self.prevPanel = self.currPanel;
+        self.currPanel = self.nextPanel;
+        
+        self.nextPanel = [[GamePanel alloc] initPanelWithWorld:world atOffset:ccp(self.currPanel.backgroundSprite.position.x + s.width, 0)];
+        [self addPanel:self.nextPanel];
+    }
+}
+
+#pragma mark - contact listener
+
+- (void)beginContact:(b2Contact*)contact {
+    NSLog(@"beginContact");
+}
+- (void)endContact:(b2Contact*)contact {
+    NSLog(@"endContact");
+    
+}
+- (void)preSolve:(b2Contact*)contact manifold:(const b2Manifold*)oldManifold {
+    NSLog(@"preSolve");
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();
+    b2Body* bodyB = contact->GetFixtureB()->GetBody();
+    
+    OmegaObject* spriteA = (OmegaObject*)bodyA->GetUserData();
+    OmegaObject* spriteB = (OmegaObject*)bodyB->GetUserData();
+    
+    if (spriteA.ethereal || spriteB.ethereal) {
+        contact->SetEnabled(false);
+        return;
+    }
+}
+- (void)postSolve:(b2Contact*)contact impulse:(const b2ContactImpulse*)impulse {
+    NSLog(@"postSolve");
 }
 
 @end

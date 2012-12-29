@@ -13,22 +13,17 @@
 @synthesize world = _world;
 @synthesize body = _body;
 
-- (id)initWithWorld:(b2World *)world {
+- (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location {
     if((self = [super init])){
         _world = world;
-        
-        [self setupBox2DBody];
-        [self setupCocos2dChildern];
+        _ethereal = NO;
+        [self setupBox2DBodyAtLocation:location];
     }
     
     return self;
 }
 
-- (void)setupBox2DBody {
-    //should override
-}
-
-- (void)setupCocos2dChildern {
+- (void)setupBox2DBodyAtLocation:(CGPoint)location {
     //should override
 }
 

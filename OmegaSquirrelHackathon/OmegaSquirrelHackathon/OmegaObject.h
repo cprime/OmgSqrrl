@@ -10,17 +10,16 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 
-@interface OmegaObject : CCNode {
+@interface OmegaObject : CCSprite {
     b2World *_world;
     b2Body *_body;
 }
 
 @property (nonatomic, assign) b2World *world;
 @property (nonatomic, assign) b2Body *body;
+@property (nonatomic, assign) BOOL ethereal;
 
-- (id)initWithWorld:(b2World *)world;
-
-- (void)setupBox2DBody;
-- (void)setupCocos2dChildern;
+- (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location;
+- (void)setupBox2DBodyAtLocation:(CGPoint)location;
 
 @end

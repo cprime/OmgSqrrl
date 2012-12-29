@@ -12,6 +12,7 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 #import "Box2D.h"
+#include "MyContactListener.h"
 #import "GLES-Render.h"
 #import "squirrel.h"
 
@@ -20,14 +21,12 @@
 @class LevelTracker;
 
 // GameLayer
-@interface GameLayer : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate>
+@interface GameLayer : CCLayerColor<B2ContactListener>
 {
     int _offsetX;
-	CCTexture2D *spriteTexture_;	// weak ref
 	b2World* world;					// strong ref
 	GLESDebugDraw *m_debugDraw;		// strong ref
     
-    CCSpriteBatchNode *_batchNode;
     Squirrel * _squirrel;
     
     BOOL _tapDown;
