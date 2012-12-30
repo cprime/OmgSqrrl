@@ -11,12 +11,17 @@
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
+#import "GameOverLayer.h"
 #import "Player.h"
 #import "GameHUDLayer.h"
 #import "LevelTracker.h"
 #import "TelephoneLineSprite.h"
 #import "TelephonePoleSprite.h"
 #import "GamePanel.h"
+#import "KillBallSprite.h"
+#import "KillZoneSprite.h"
+#import "AcornSprite.h"
+#import "PowerUpSprite.h"
 
 enum {
 	kTagParentNode = 1,
@@ -31,6 +36,7 @@ enum {
 #pragma mark - GameLayer
 
 @interface GameLayer()
+@property (nonatomic, retain) NSMutableArray *spritesToRemove;
 @property (nonatomic, assign) MyContactListener *contactListener;
 @property (nonatomic, retain) GamePanel *prevPanel;
 @property (nonatomic, retain) GamePanel *currPanel;
@@ -72,8 +78,8 @@ enum {
 - (id)init
 {
 	if( (self = [super init])) {
-        CGSize s = [[CCDirector sharedDirector] winSize];
 		self.isTouchEnabled = YES;
+        self.spritesToRemove = [NSMutableArray array];
         
         self.playerModel = [[Player alloc] init];
         self.levelTracker = [[LevelTracker alloc] init];
@@ -94,22 +100,23 @@ enum {
         
         _squirrel = [[[SquirrelSprite alloc] initWithWorld:world atLocation:ccp(200, 708)] autorelease];
         _squirrel.player = self.playerModel;
-        [_batchNode addChild:_squirrel z:INT32_MAX];
+        [_batchNode addChild:_squirrel z:INT32_MAX - 1];
         
-        //temp
-        b2BodyDef groundBodyDef;
-        groundBodyDef.position.Set(0, 0); // bottom-left corner
-        b2Body* groundBody = world->CreateBody(&groundBodyDef);
-        b2EdgeShape groundBox;
-        groundBox.Set(b2Vec2(0, 1000 / PTM_RATIO), b2Vec2(s.width/PTM_RATIO, 1000 / PTM_RATIO));
-        groundBody->CreateFixture(&groundBox,0);
-        
-        b2PrismaticJointDef jointDef;
-        b2Vec2 worldAxis(1.0f, 0.0f);
-        jointDef.collideConnected = true;
-        jointDef.Initialize(_squirrel.body, groundBody,
-                            _squirrel.body->GetWorldCenter(), worldAxis);
-        world->CreateJoint(&jointDef);
+//        //temp
+//        CGSize s = [[CCDirector sharedDirector] winSize];
+//        b2BodyDef groundBodyDef;
+//        groundBodyDef.position.Set(0, 0); // bottom-left corner
+//        b2Body* groundBody = world->CreateBody(&groundBodyDef);
+//        b2EdgeShape groundBox;
+//        groundBox.Set(b2Vec2(0, 1000 / PTM_RATIO), b2Vec2(s.width/PTM_RATIO, 1000 / PTM_RATIO));
+//        groundBody->CreateFixture(&groundBox,0);
+//        
+//        b2PrismaticJointDef jointDef;
+//        b2Vec2 worldAxis(1.0f, 0.0f);
+//        jointDef.collideConnected = true;
+//        jointDef.Initialize(_squirrel.body, groundBody,
+//                            _squirrel.body->GetWorldCenter(), worldAxis);
+//        world->CreateJoint(&jointDef);
         
         [self scheduleUpdate];
 	}
@@ -191,6 +198,13 @@ enum {
             CC_RADIANS_TO_DEGREES(b->GetAngle() * -1);
         }
     }
+    [self.playerModel tick:dt];
+    
+    for(OmegaSprite *o in self.spritesToRemove) {
+        [o removeFromParentAndCleanup:NO];
+        world->DestroyBody(o.body);
+    }
+    [self.spritesToRemove removeAllObjects];
     
     [self followSquirrel];
     [self updatePanels];
@@ -198,6 +212,30 @@ enum {
     self.levelTracker.distanceTraveled = (_squirrel.body->GetPosition().x - (200 / PTM_RATIO)) * 10;
     self.levelTracker.elapsedTime += dt;
     [self.HUDLayer update];
+    
+    if(_playerModel.currentHealth <= 0) {
+        self.isTouchEnabled = NO;
+        [self unscheduleUpdate];
+        
+        CGSize winSize = [[CCDirector sharedDirector] winSize];
+        CCLabelTTF *label = [[CCLabelTTF alloc] initWithString:@"You're Dead, Omega!" fontName:@"Helvetica" fontSize:72];
+        label.color = ccYELLOW;
+        label.anchorPoint = ccp(.5, .5);
+        label.position = ccpAdd(ccpSub(CGPointZero, self.position), ccp(winSize.width / 2.0, winSize.height / 2.0));
+        label.scale = .25;
+        [self addChild:label z:INT32_MAX];
+        
+        _squirrel.rotation = 180;
+        
+        [label runAction:[CCSequence actions:
+                          [CCScaleTo actionWithDuration:.5 scale:1],
+                          [CCDelayTime actionWithDuration:3],
+                          [CCCallBlock actionWithBlock:^{
+            CCScene *scene = [GameOverLayer sceneWithTracker:self.levelTracker];
+            [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:scene withColor:ccBLACK]];
+        }],
+                          nil]];
+    }
 }
 
 - (void)setOffsetX:(float)newOffsetX{
@@ -266,9 +304,75 @@ enum {
 
 - (void)beginContact:(b2Contact*)contact {
     NSLog(@"beginContact");
+    
+    if(contact->IsTouching()) {
+        b2Fixture* fixtureA = contact->GetFixtureA();
+        b2Fixture* fixtureB = contact->GetFixtureB();
+        
+        b2Body* bodyA = fixtureA->GetBody();
+        b2Body* bodyB = fixtureB->GetBody();
+        
+        OmegaSprite* spriteA = (OmegaSprite*)bodyA->GetUserData();
+        OmegaSprite* spriteB = (OmegaSprite*)bodyB->GetUserData();
+        OmegaSprite* squirrel = nil;
+        OmegaSprite* other = nil;
+        
+        if([spriteA isKindOfClass:[SquirrelSprite class]] && ![spriteB isKindOfClass:[SquirrelSprite class]]) {
+            squirrel = spriteA;
+            other = spriteB;
+        } else if(![spriteA isKindOfClass:[SquirrelSprite class]] && [spriteB isKindOfClass:[SquirrelSprite class]]) {
+            squirrel = spriteB;
+            other = spriteA;
+        }
+        
+        if(squirrel) {
+            if([other isKindOfClass:[KillBallSprite class]]) {
+                [self.playerModel takeDamage:[(KillBallSprite *)other damage]];
+                [(KillBallSprite *)other setHasCausedDamage:YES];
+            }
+            if([other isKindOfClass:[KillZoneSprite class]]) {
+                [self.playerModel takeDamage:self.playerModel.currentHealth];
+            }
+            if([other isKindOfClass:[AcornSprite class]]) {
+                self.levelTracker.acornsCollected += [(AcornSprite *)other value];
+                [self.spritesToRemove addObject:other];
+            }
+            if([other isKindOfClass:[PowerUpSprite class]]) {
+                [self.playerModel addActivePowerUp:[(PowerUpSprite *)other powerUp]];
+                [self.spritesToRemove addObject:other];
+            }
+        }
+    }
 }
 - (void)endContact:(b2Contact*)contact {
     NSLog(@"endContact");
+    
+    if(contact->IsTouching()) {
+        b2Fixture* fixtureA = contact->GetFixtureA();
+        b2Fixture* fixtureB = contact->GetFixtureB();
+        
+        b2Body* bodyA = fixtureA->GetBody();
+        b2Body* bodyB = fixtureB->GetBody();
+        
+        OmegaSprite* spriteA = (OmegaSprite*)bodyA->GetUserData();
+        OmegaSprite* spriteB = (OmegaSprite*)bodyB->GetUserData();
+        OmegaSprite* squirrel = nil;
+        OmegaSprite* other = nil;
+        
+        if([spriteA isKindOfClass:[SquirrelSprite class]] && ![spriteB isKindOfClass:[SquirrelSprite class]]) {
+            squirrel = spriteA;
+            other = spriteB;
+        } else if(![spriteA isKindOfClass:[SquirrelSprite class]] && [spriteB isKindOfClass:[SquirrelSprite class]]) {
+            squirrel = spriteB;
+            other = spriteA;
+        }
+        
+        if(squirrel) {
+            if([other isKindOfClass:[KillBallSprite class]]) {
+                [(KillBallSprite *)other setHasCausedDamage:NO];
+            }
+        }
+    }
     
 }
 - (void)preSolve:(b2Contact*)contact manifold:(const b2Manifold*)oldManifold {

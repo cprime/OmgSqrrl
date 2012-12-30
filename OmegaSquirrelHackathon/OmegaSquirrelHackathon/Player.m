@@ -55,7 +55,7 @@
     }
 }
 - (void)takeDamage:(float)damage {
-    _currentHealth -= damage;
+    _currentHealth = MAX(0, _currentHealth - damage);
 }
 
 - (void)tick:(float)dt {

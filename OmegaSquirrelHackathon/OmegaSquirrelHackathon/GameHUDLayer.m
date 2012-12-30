@@ -15,6 +15,8 @@
 @property (nonatomic, strong) CCLabelTTF *distanceLabel;
 @property (nonatomic, strong) CCLabelTTF *acornsLabel;
 @property (nonatomic, strong) CCLabelTTF *healthLabel;
+@property (nonatomic, strong) CCLabelTTF *speedLabel;
+@property (nonatomic, strong) CCLabelTTF *jumpLabel;
 @end
 
 @implementation GameHUDLayer
@@ -36,7 +38,7 @@
 }
 
 - (CCLabelTTF *)label {
-    CCLabelTTF *label = [CCLabelTTF labelWithString:@"" dimensions:CGSizeMake(200, 50) hAlignment:NSTextAlignmentLeft lineBreakMode:NSLineBreakByTruncatingTail fontName:@"Helvetica" fontSize:24];
+    CCLabelTTF *label = [CCLabelTTF labelWithString:@"" dimensions:CGSizeMake(200, 50) hAlignment:NSTextAlignmentLeft lineBreakMode:NSLineBreakByTruncatingTail fontName:@"Helvetica" fontSize:20];
     label.anchorPoint = ccp(0.0, 1.0);
     label.color = ccWHITE;
     return label;
@@ -73,11 +75,23 @@
         self.acornsLabel.position = ccp(xOffset, size.height - 5);
         [self addChild:self.acornsLabel z:1];
         
-        xOffset += 220;
+        xOffset += 180;
         
         self.healthLabel = [self label];
         self.healthLabel.position = ccp(xOffset, size.height - 5);
         [self addChild:self.healthLabel z:1];
+        
+        xOffset += 150;
+        
+        self.speedLabel = [self label];
+        self.speedLabel.position = ccp(xOffset, size.height - 5);
+        [self addChild:self.speedLabel z:1];
+        
+        xOffset += 150;
+        
+        self.jumpLabel = [self label];
+        self.jumpLabel.position = ccp(xOffset, size.height - 5);
+        [self addChild:self.jumpLabel z:1];
         
         [self update];
     }
@@ -96,9 +110,13 @@
     }
     
     if(self.player) {
-        _healthLabel.string = [NSString stringWithFormat:@"Health: %d", (int)self.player.currentHealth];
+        _healthLabel.string = [NSString stringWithFormat:@"HP: %d", (int)self.player.currentHealth];
+        _speedLabel.string = [NSString stringWithFormat:@"SP: %.1fx", self.player.currentRunSpeed];
+        _jumpLabel.string = [NSString stringWithFormat:@"JP: %.1fx", self.player.currentJumpPower];
     } else {
         _healthLabel.string = @"";
+        _speedLabel.string = @"";
+        _jumpLabel.string = @"";
     }
 }
 

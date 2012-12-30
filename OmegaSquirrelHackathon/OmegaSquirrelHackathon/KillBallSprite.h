@@ -10,6 +10,9 @@
 
 @interface KillBallSprite : OmegaSprite
 
+@property (nonatomic, assign) BOOL hasCausedDamage;
+@property (nonatomic, assign) int damage;
+
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location size:(CGSize)size;
 
 @end

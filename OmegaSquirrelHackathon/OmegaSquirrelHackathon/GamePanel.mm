@@ -163,8 +163,11 @@ static int nextBackground = 3;
     [self.backgroundSprite removeFromParentAndCleanup:NO];
     
     for(OmegaSprite *o in self.sprites) {
-        [o removeFromParentAndCleanup:NO];
-        o.body->GetWorld()->DestroyBody(o.body);
+        //already removed... bad code bad!!!
+        if(o.parent) {
+            [o removeFromParentAndCleanup:NO];
+            o.body->GetWorld()->DestroyBody(o.body);
+        }
     }
 }
 - (void)dealloc {

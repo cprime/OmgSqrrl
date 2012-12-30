@@ -19,6 +19,9 @@
     if(self) {
         self.world = world;
         self.ethereal = NO;
+        self.hasCausedDamage = NO;
+        self.damage = 60;
+        
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"omega_shock.png"]];
         self.scaleX = size.width / self.textureRect.size.width;
         self.scaleY = size.height / self.textureRect.size.height;
@@ -42,7 +45,7 @@
     b2FixtureDef fd;
     fd.shape = &shape;
     fd.density = 1.0f;
-    fd.restitution = 0.0f;
+    fd.restitution = 1.0f;
     fd.friction = 0.0f;
     
     _body->CreateFixture(&fd);
