@@ -21,9 +21,12 @@
 #define BackgroundName [NSString stringWithFormat:@"Omega_ipad_bckgrnd_%d.png", (nextBackground % BackgroundCount) + 1]
 static int nextBackground = 3;
 
-#define BackgroundBuffer 400
+#define BackgroundBuffer 700
 
 @implementation GamePanel
++ (void)reset {
+    nextBackground = 3;
+}
 
 - (OmegaSprite *)randomPickupWithWorld:(b2World *)world atOffset:(CGPoint)startingOffset {
     int random = arc4random() % 100;

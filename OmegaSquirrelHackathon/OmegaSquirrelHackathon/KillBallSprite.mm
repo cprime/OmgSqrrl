@@ -20,7 +20,7 @@
         self.world = world;
         self.ethereal = NO;
         self.hasCausedDamage = NO;
-        self.damage = 60;
+        self.damage = 20;
         
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"omega_shock.png"]];
         self.scaleX = size.width / self.textureRect.size.width;
@@ -39,8 +39,8 @@
     
     _body = _world->CreateBody(&bd);
     
-    b2PolygonShape shape;
-    shape.SetAsBox((self.boundingBox.size.width * .5) / PTM_RATIO, (self.boundingBox.size.height * .5) / PTM_RATIO);
+    b2CircleShape shape;
+    shape.m_radius = (self.boundingBox.size.width * .5) / PTM_RATIO;
     
     b2FixtureDef fd;
     fd.shape = &shape;

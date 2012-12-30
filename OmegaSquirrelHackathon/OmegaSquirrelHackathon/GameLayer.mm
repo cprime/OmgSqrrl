@@ -22,6 +22,7 @@
 #import "KillZoneSprite.h"
 #import "AcornSprite.h"
 #import "PowerUpSprite.h"
+#import "LargeHouseSprite.h"
 
 enum {
 	kTagParentNode = 1,
@@ -78,6 +79,8 @@ enum {
 - (id)init
 {
 	if( (self = [super init])) {
+        [GamePanel reset];
+        
 		self.isTouchEnabled = YES;
         self.spritesToRemove = [NSMutableArray array];
         
@@ -126,8 +129,6 @@ enum {
 
 - (void)onEnterTransitionDidFinish {
     [self.parent addChild:self.HUDLayer z:100];
-    
-    [_squirrel run];
 }
 
 -(void) dealloc
@@ -174,13 +175,13 @@ enum {
 	//
 	[super draw];
 	
-	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
-	
-	kmGLPushMatrix();
-	
-	world->DrawDebugData();
-	
-	kmGLPopMatrix();
+//	ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
+//	
+//	kmGLPushMatrix();
+//	
+//	world->DrawDebugData();
+//	
+//	kmGLPopMatrix();
 }
 
 - (void)update:(ccTime)dt
@@ -200,6 +201,12 @@ enum {
     }
     [self.playerModel tick:dt];
     
+    NSLog(_squirrel.feetContactCount > 0 ? @"Ground" : @"Not");
+    if(_squirrel.feetContactCount == 1 /*&& !_squirrel.hasRestarted*/) {
+        [_squirrel run];
+        _squirrel.hasRestarted = YES;
+    }
+    
     for(OmegaSprite *o in self.spritesToRemove) {
 //        [o removeFromParentAndCleanup:NO];
 //        world->DestroyBody(o.body);
@@ -217,6 +224,8 @@ enum {
     if(_playerModel.currentHealth <= 0) {
         self.isTouchEnabled = NO;
         [self unscheduleUpdate];
+        _squirrel.rotation = 180;
+        [_squirrel stopAllActions];
         
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         CCLabelTTF *label = [[CCLabelTTF alloc] initWithString:@"You're Dead, Omega!" fontName:@"Helvetica" fontSize:72];
@@ -225,8 +234,6 @@ enum {
         label.position = ccpAdd(ccpSub(CGPointZero, self.position), ccp(winSize.width / 2.0, winSize.height / 2.0));
         label.scale = .25;
         [self addChild:label z:INT32_MAX];
-        
-        _squirrel.rotation = 180;
         
         [label runAction:[CCSequence actions:
                           [CCScaleTo actionWithDuration:.5 scale:1],
@@ -254,7 +261,12 @@ enum {
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     _tapDown = YES;
     
-    [_squirrel jump];
+    if(_squirrel.feetContactCount > 0 || !_squirrel.hasDoubleJumped) {
+        if(_squirrel.feetContactCount == 0) {
+            _squirrel.hasDoubleJumped = YES;
+        }
+        [_squirrel jump];
+    }
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -304,7 +316,7 @@ enum {
 #pragma mark - contact listener
 
 - (void)beginContact:(b2Contact*)contact {
-    NSLog(@"beginContact");
+//    NSLog(@"beginContact");
     
     if(contact->IsTouching()) {
         b2Fixture* fixtureA = contact->GetFixtureA();
@@ -315,14 +327,18 @@ enum {
         
         OmegaSprite* spriteA = (OmegaSprite*)bodyA->GetUserData();
         OmegaSprite* spriteB = (OmegaSprite*)bodyB->GetUserData();
-        OmegaSprite* squirrel = nil;
+        
+        SquirrelSprite* squirrel = nil;
         OmegaSprite* other = nil;
+        b2Fixture* squirrelFixture = nil;
         
         if([spriteA isKindOfClass:[SquirrelSprite class]] && ![spriteB isKindOfClass:[SquirrelSprite class]]) {
-            squirrel = spriteA;
+            squirrel = (SquirrelSprite *)spriteA;
+            squirrelFixture = fixtureA;
             other = spriteB;
         } else if(![spriteA isKindOfClass:[SquirrelSprite class]] && [spriteB isKindOfClass:[SquirrelSprite class]]) {
-            squirrel = spriteB;
+            squirrel = (SquirrelSprite *)spriteB;
+            squirrelFixture = fixtureB;
             other = spriteA;
         }
         
@@ -344,13 +360,18 @@ enum {
                 [self.spritesToRemove addObject:other];
                 [(PowerUpSprite *)other setHasPickedUp:YES];
             }
+            if(squirrelFixture == squirrel.feet) {
+                if([other isKindOfClass:[TelephoneLineSprite class]] || [other isKindOfClass:[TelephonePoleSprite class]] || [other isKindOfClass:[LargeHouseSprite class]]) {
+                    squirrel.feetContactCount++;
+                }
+            }
         }
     }
 }
 - (void)endContact:(b2Contact*)contact {
-    NSLog(@"endContact");
+//    NSLog(@"endContact");
     
-    if(contact->IsTouching()) {
+    if(!contact->IsTouching()) {
         b2Fixture* fixtureA = contact->GetFixtureA();
         b2Fixture* fixtureB = contact->GetFixtureB();
         
@@ -359,14 +380,18 @@ enum {
         
         OmegaSprite* spriteA = (OmegaSprite*)bodyA->GetUserData();
         OmegaSprite* spriteB = (OmegaSprite*)bodyB->GetUserData();
-        OmegaSprite* squirrel = nil;
+        
+        SquirrelSprite* squirrel = nil;
         OmegaSprite* other = nil;
+        b2Fixture* squirrelFixture = nil;
         
         if([spriteA isKindOfClass:[SquirrelSprite class]] && ![spriteB isKindOfClass:[SquirrelSprite class]]) {
-            squirrel = spriteA;
+            squirrel = (SquirrelSprite *)spriteA;
+            squirrelFixture = fixtureA;
             other = spriteB;
         } else if(![spriteA isKindOfClass:[SquirrelSprite class]] && [spriteB isKindOfClass:[SquirrelSprite class]]) {
-            squirrel = spriteB;
+            squirrel = (SquirrelSprite *)spriteB;
+            squirrelFixture = fixtureB;
             other = spriteA;
         }
         
@@ -374,12 +399,20 @@ enum {
             if([other isKindOfClass:[KillBallSprite class]]) {
                 [(KillBallSprite *)other setHasCausedDamage:NO];
             }
+            if(squirrelFixture == squirrel.feet) {
+                if([other isKindOfClass:[TelephoneLineSprite class]] || [other isKindOfClass:[TelephonePoleSprite class]] || [other isKindOfClass:[LargeHouseSprite class]]) {
+                    squirrel.feetContactCount--;
+                    if(squirrel.feetContactCount <= 0) {
+                        _squirrel.hasRestarted = NO;
+                    }
+                }
+            }
         }
     }
     
 }
 - (void)preSolve:(b2Contact*)contact manifold:(const b2Manifold*)oldManifold {
-    NSLog(@"preSolve");
+//    NSLog(@"preSolve");
     b2Body* bodyA = contact->GetFixtureA()->GetBody();
     b2Body* bodyB = contact->GetFixtureB()->GetBody();
     
@@ -392,7 +425,7 @@ enum {
     }
 }
 - (void)postSolve:(b2Contact*)contact impulse:(const b2ContactImpulse*)impulse {
-    NSLog(@"postSolve");
+//    NSLog(@"postSolve");
 }
 
 @end

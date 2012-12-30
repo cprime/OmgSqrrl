@@ -14,6 +14,8 @@
 @property (nonatomic, retain) CCSprite *backgroundSprite;
 @property (nonatomic, retain) NSMutableArray *sprites;
 
++ (void)reset;
+
 - (id)initPanelWithWorld:(b2World *)world atOffset:(CGPoint)startingOffset;
 - (BOOL)shouldDestroyPanel;
 - (void)destroyPanel;

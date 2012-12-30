@@ -11,11 +11,19 @@
 #import "Box2D.h"
 #import "OmegaSprite.h"
 
+#define SquirrelRunImpulse 40
+#define SquirrelJumpImpulse 80
+
 @class Player;
 
 @interface SquirrelSprite : OmegaSprite
 
 @property (nonatomic, retain) Player *player;
+@property (nonatomic, assign) BOOL hasDoubleJumped;
+@property (nonatomic, assign) BOOL hasRestarted;
+
+@property (nonatomic, assign) b2Fixture *feet;
+@property (nonatomic, assign) int feetContactCount;
 
 - (void)run;
 - (void)jump;
