@@ -19,6 +19,7 @@
     _feetContactCount = feetContactCount;
     
     if(prev == 0 && feetContactCount > 0) {
+        [self stopActionByTag:animationTag];
         self.hasDoubleJumped = NO;
         
         NSMutableArray *walkAnimFrames = [NSMutableArray array];
@@ -90,15 +91,29 @@
 
 // Applies a linear "impulse" to get the squirrel moving
 - (void)run {
-    _body->SetLinearVelocity(b2Vec2(SquirrelRunImpulse * self.player.currentRunSpeed * .2, _body->GetLinearVelocity().y));
+    _body->SetLinearVelocity(b2Vec2(SquirrelRunImpulse * self.player.currentRunSpeed, _body->GetLinearVelocity().y));
 //    _body->ApplyLinearImpulse(b2Vec2(SquirrelRunImpulse * self.player.currentRunSpeed, 0), _body->GetPosition());
 }
 
 
 // Controls the jumping of the squirrel
 -(void)jump {
-    _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x, 0));
-    _body->ApplyLinearImpulse(b2Vec2(0, SquirrelJumpImpulse * self.player.currentJumpPower * 2), _body->GetPosition());
+    if(_body->GetLinearVelocity().y < 0) {
+        _body->SetLinearVelocity(b2Vec2(_body->GetLinearVelocity().x, 0));
+    }
+    _body->ApplyLinearImpulse(b2Vec2(0, SquirrelJumpImpulse * self.player.currentJumpPower), _body->GetPosition());
+    if(_feetContactCount == 0) {
+        [self stopActionByTag:animationTag];
+        
+        NSMutableArray *walkAnimFrames = [NSMutableArray array];
+        [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"squirrel-frames_02.png"]]];
+        [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"squirrel-frames_03.png"]]];
+        
+        CCAnimation *walkAnim = [CCAnimation animationWithSpriteFrames:walkAnimFrames delay:.1];
+        CCAnimate *ret = [CCAnimate actionWithAnimation:walkAnim];
+        ret.tag = animationTag;
+        [self runAction:ret];
+    }
 }
 
 @end

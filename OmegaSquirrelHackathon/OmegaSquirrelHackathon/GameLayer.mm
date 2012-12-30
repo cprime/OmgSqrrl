@@ -346,6 +346,7 @@ enum {
             if([other isKindOfClass:[KillBallSprite class]]) {
                 [self.playerModel takeDamage:[(KillBallSprite *)other damage]];
                 [(KillBallSprite *)other setHasCausedDamage:YES];
+                _squirrel.hasDoubleJumped = NO;
             }
             if([other isKindOfClass:[KillZoneSprite class]]) {
                 [self.playerModel takeDamage:self.playerModel.currentHealth];

@@ -11,8 +11,8 @@
 #import "Box2D.h"
 #import "OmegaSprite.h"
 
-#define SquirrelRunImpulse 40
-#define SquirrelJumpImpulse 80
+#define SquirrelRunImpulse 8
+#define SquirrelJumpImpulse 120
 
 @class Player;
 

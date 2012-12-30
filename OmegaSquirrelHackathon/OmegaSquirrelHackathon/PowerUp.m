@@ -21,11 +21,11 @@
             ret.value = 20;
             break;
         case PowerUpTypeSuperJump:
-            ret.totalTotal = 5;
+            ret.totalTotal = 15;
             ret.value = .5;
             break;
         case PowerUpTypeSpeedBoost:
-            ret.totalTotal = 5;
+            ret.totalTotal = 15;
             ret.value = .5;
             break;
     }

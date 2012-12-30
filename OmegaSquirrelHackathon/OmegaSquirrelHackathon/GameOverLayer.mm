@@ -43,6 +43,9 @@
         CCMenuItem *acornsLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"Acorns Collected: %d", tracker.acornsCollected]
                                                                                     fontName:@"Helvetica"
                                                                                     fontSize:30]];
+        CCMenuItem *apsLabel = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.2f a/s", tracker.acornsCollected / tracker.elapsedTime]
+                                                                                    fontName:@"Helvetica"
+                                                                                    fontSize:30]];
         CCMenuItem *space = [[CCMenuItem alloc] init];
         space.contentSize = CGSizeMake(1, 100);
         
@@ -68,7 +71,7 @@
         CCMenuItem *playButton = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:text fontName:@"Helvetica" fontSize:50]];
         [playButton setTarget:self selector:@selector(playButtonClicked)];
         
-        CCMenu *menu = [CCMenu menuWithItems:timeLabel, distanceLabel, acornsLabel, space, playButton, nil];
+        CCMenu *menu = [CCMenu menuWithItems:timeLabel, distanceLabel, acornsLabel, apsLabel, space, playButton, nil];
         menu.position = ccp(self.contentSize.width / 2.0, self.contentSize.height / 2.0);
         
         [menu alignItemsVertically];

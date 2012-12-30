@@ -30,15 +30,15 @@ static int nextBackground = 3;
 
 - (OmegaSprite *)randomPickupWithWorld:(b2World *)world atOffset:(CGPoint)startingOffset {
     int random = arc4random() % 100;
-    if(random < 50) {
+    if(random < 30) {
         return [[AcornSprite alloc] initWithWorld:world atLocation:startingOffset];
-    } else if(random < 70) {
+    } else if(random < 50) {
         return [[AcornSprite alloc] initWithWorld:world atLocation:startingOffset type:AcornTypeThree];
-    } else if(random < 80) {
+    } else if(random < 60) {
         return [[AcornSprite alloc] initWithWorld:world atLocation:startingOffset type:AcornTypeTen];
-    } else if(random < 87) {
+    } else if(random < 70) {
         return [[PowerUpSprite alloc] initWithWorld:world atLocation:startingOffset powerUp:[PowerUp powerUpWithType:PowerUpTypeHealthBoost]];
-    } else if(random < 94) {
+    } else if(random < 85) {
         return [[PowerUpSprite alloc] initWithWorld:world atLocation:startingOffset powerUp:[PowerUp powerUpWithType:PowerUpTypeSpeedBoost]];
     } else if(random < 100) {
         return [[PowerUpSprite alloc] initWithWorld:world atLocation:startingOffset powerUp:[PowerUp powerUpWithType:PowerUpTypeSuperJump]];
@@ -78,25 +78,19 @@ static int nextBackground = 3;
 }
 
 - (void)setupPanel3WithWorld:(b2World *)world atOffset:(CGPoint)startingOffset {
-    OmegaSprite *sprite = [[[TelephoneLineSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(285, 50))] autorelease];
+    OmegaSprite *sprite = [[[TelephoneLineSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(285, 125))] autorelease];
     [self.sprites addObject:sprite];
     
-    sprite = [[[TelephoneLineSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(585, 150))] autorelease];
+    sprite = [[[TelephoneLineSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(785, 250))] autorelease];
     [self.sprites addObject:sprite];
     
-    sprite = [[[TelephoneLineSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(885, 250))] autorelease];
+    sprite = [self randomPickupWithWorld:world atOffset:ccpAdd(startingOffset, ccp(75, 200))];
     [self.sprites addObject:sprite];
     
-    sprite = [self randomPickupWithWorld:world atOffset:ccpAdd(startingOffset, ccp(75, 125))];
-    [self.sprites addObject:sprite];
-    
-    sprite = [self randomPickupWithWorld:world atOffset:ccpAdd(startingOffset, ccp(200, 200))];
+    sprite = [self randomPickupWithWorld:world atOffset:ccpAdd(startingOffset, ccp(200, 275))];
     [self.sprites addObject:sprite];
     
     sprite = [self randomPickupWithWorld:world atOffset:ccpAdd(startingOffset, ccp(900, 500))];
-    [self.sprites addObject:sprite];
-    
-    sprite = [[[KillBallSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(450, 200))] autorelease];
     [self.sprites addObject:sprite];
 }
 
@@ -113,7 +107,7 @@ static int nextBackground = 3;
     sprite = [self randomPickupWithWorld:world atOffset:ccpAdd(startingOffset, ccp(600, 650))];
     [self.sprites addObject:sprite];
     
-    sprite = [[[KillBallSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(750, 450))] autorelease];
+    sprite = [[[KillBallSprite alloc] initWithWorld:world atLocation:ccpAdd(startingOffset, ccp(800, 450))] autorelease];
     [self.sprites addObject:sprite];
 }
 
