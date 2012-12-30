@@ -201,8 +201,9 @@ enum {
     [self.playerModel tick:dt];
     
     for(OmegaSprite *o in self.spritesToRemove) {
-        [o removeFromParentAndCleanup:NO];
-        world->DestroyBody(o.body);
+//        [o removeFromParentAndCleanup:NO];
+//        world->DestroyBody(o.body);
+        o.opacity = 0;
     }
     [self.spritesToRemove removeAllObjects];
     
@@ -333,13 +334,15 @@ enum {
             if([other isKindOfClass:[KillZoneSprite class]]) {
                 [self.playerModel takeDamage:self.playerModel.currentHealth];
             }
-            if([other isKindOfClass:[AcornSprite class]]) {
+            if([other isKindOfClass:[AcornSprite class]] && ![(AcornSprite *)other hasPickedUp]) {
                 self.levelTracker.acornsCollected += [(AcornSprite *)other value];
                 [self.spritesToRemove addObject:other];
+                [(AcornSprite *)other setHasPickedUp:YES];
             }
-            if([other isKindOfClass:[PowerUpSprite class]]) {
+            if([other isKindOfClass:[PowerUpSprite class]] && ![(AcornSprite *)other hasPickedUp]) {
                 [self.playerModel addActivePowerUp:[(PowerUpSprite *)other powerUp]];
                 [self.spritesToRemove addObject:other];
+                [(PowerUpSprite *)other setHasPickedUp:YES];
             }
         }
     }

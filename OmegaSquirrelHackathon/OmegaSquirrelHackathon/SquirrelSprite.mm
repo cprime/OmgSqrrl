@@ -37,16 +37,32 @@
     bd.userData = self;
     _body = _world->CreateBody(&bd);
     
-    b2PolygonShape shape;
-    shape.SetAsBox((self.boundingBox.size.width * .5) / PTM_RATIO, (self.boundingBox.size.height * .5) / PTM_RATIO);
+    float width = (self.boundingBox.size.width * .5) / PTM_RATIO;
+    float height = (self.boundingBox.size.height * .5) / PTM_RATIO;
     
-    b2FixtureDef fd;
-    fd.shape = &shape;
-    fd.density = 1.0f;
-    fd.restitution = 0.0f;      // 0.0 => Squirrel doesn't bounce when hitting the ground
-    fd.friction = 0.0f;         // Lower values = more 'slippery'
+    //bottom
+    b2PolygonShape bottomShape;
+    bottomShape.SetAsBox(width, height, b2Vec2(0, -0.1), 0);
     
-    _body->CreateFixture(&fd);
+    b2FixtureDef bottomFD;
+    bottomFD.shape = &bottomShape;
+    bottomFD.density = 0.5f;
+    bottomFD.friction = 0.0f;
+    bottomFD.restitution = 0.0f;
+    
+    _body->CreateFixture(&bottomFD);
+    
+    //top
+    b2PolygonShape topShape;
+    topShape.SetAsBox(width, height, b2Vec2(0, 0.1), 0);
+    
+    b2FixtureDef topFD;
+    topFD.shape = &topShape;
+    topFD.density = 0.5f;
+    topFD.friction = 0.0f;
+    topFD.restitution = 1.0f;
+    
+    _body->CreateFixture(&topFD);
 }
 
 // Applies a linear "impulse" to get the squirrel moving

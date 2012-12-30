@@ -20,6 +20,7 @@
     if(self) {
         self.world = world;
         self.ethereal = YES;
+        self.hasPickedUp = NO;
         self.powerUp = powerUp;
         
         switch (self.powerUp.type) {

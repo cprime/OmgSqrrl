@@ -168,6 +168,9 @@ b2Fixture* b2Body::CreateFixture(const b2FixtureDef* def)
 		fixture->CreateProxies(broadPhase, m_xf);
 	}
 
+    if(fixture == m_fixtureList) {
+        printf("FUCK");
+    }
 	fixture->m_next = m_fixtureList;
 	m_fixtureList = fixture;
 	++m_fixtureCount;

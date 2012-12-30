@@ -21,7 +21,7 @@
 #define BackgroundName [NSString stringWithFormat:@"Omega_ipad_bckgrnd_%d.png", (nextBackground % BackgroundCount) + 1]
 static int nextBackground = 3;
 
-#define BackgroundBuffer 50
+#define BackgroundBuffer 400
 
 @implementation GamePanel
 
@@ -163,7 +163,7 @@ static int nextBackground = 3;
     [self.backgroundSprite removeFromParentAndCleanup:NO];
     
     for(OmegaSprite *o in self.sprites) {
-        //already removed... bad code bad!!!
+        //already removed... bad bad bad!!!
         if(o.parent) {
             [o removeFromParentAndCleanup:NO];
             o.body->GetWorld()->DestroyBody(o.body);

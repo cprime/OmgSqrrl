@@ -117,6 +117,9 @@ b2Body* b2World::CreateBody(const b2BodyDef* def)
 
 	// Add to world doubly linked list.
 	b->m_prev = NULL;
+    if(b == m_bodyList) {
+        printf("FUCK");
+    }
 	b->m_next = m_bodyList;
 	if (m_bodyList)
 	{
@@ -586,12 +589,14 @@ void b2World::SolveTOI(const b2TimeStep& step)
 			b->m_sweep.alpha0 = 0.0f;
 		}
 
-		for (b2Contact* c = m_contactManager.m_contactList; c; c = c->m_next)
+		for (b2Contact* c = m_contactManager.m_contactList; c; )
 		{
 			// Invalidate TOI
 			c->m_flags &= ~(b2Contact::e_toiFlag | b2Contact::e_islandFlag);
 			c->m_toiCount = 0;
 			c->m_toi = 1.0f;
+            
+            c = c->m_next;
 		}
 	}
 

@@ -18,6 +18,7 @@ typedef enum {
 
 @property (nonatomic, assign) AcornType type;
 @property (nonatomic, readonly) int value;
+@property (nonatomic, assign) BOOL hasPickedUp;
 
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location;
 - (id)initWithWorld:(b2World *)world atLocation:(CGPoint)location type:(AcornType)type;

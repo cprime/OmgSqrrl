@@ -237,6 +237,9 @@ void b2ContactManager::AddPair(void* proxyUserDataA, void* proxyUserDataB)
 
 	// Call the factory.
 	b2Contact* c = b2Contact::Create(fixtureA, indexA, fixtureB, indexB, m_allocator);
+    if(c == m_contactList) {
+        printf("FUCK");
+    }
 	if (c == NULL)
 	{
 		return;
@@ -252,7 +255,10 @@ void b2ContactManager::AddPair(void* proxyUserDataA, void* proxyUserDataB)
 
 	// Insert into the world.
 	c->m_prev = NULL;
-	c->m_next = m_contactList;
+    if(c == m_contactList) {
+        printf("FUCK");
+    }
+    c->m_next = m_contactList;
 	if (m_contactList != NULL)
 	{
 		m_contactList->m_prev = c;

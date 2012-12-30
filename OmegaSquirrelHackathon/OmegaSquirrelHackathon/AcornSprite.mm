@@ -19,6 +19,7 @@
     if(self) {
         self.world = world;
         self.ethereal = YES;
+        self.hasPickedUp = NO;
         self.type = type;
         
         switch (self.type) {
